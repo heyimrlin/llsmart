@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>leelen-smart</title>
+</head>
+<body>测试
+<a th:href="${img}"><p th:text="${theme} + '!'" /></a>
+
+
+<form action="upload" method="post" enctype="multipart/form-data">
+<input type="file" name="file">
+<input type="submit" value="submit">
+</form>
+<img alt="图片" th:src="${img}" style="width: 100px;height: 100px;">
+
+<a th:href="testDownload">下载</a>
+
+</body>
+</html>

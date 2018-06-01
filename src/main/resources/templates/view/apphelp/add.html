@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>帮助信息添加</title>
+
+<style type="text/css">
+input{
+width: 200px;height: 20px;
+}
+</style>
+</head>
+<body>
+帮助信息添加
+<hr>
+<div style="margin: 30px auto auto 50px;width: 100%;height: 100%" >
+<form action="addapphelp" method="get">
+帮助类型:<select name="problemtype"> 
+<option value="0">基本功能</option> 
+<option value="1">常见问题</option> 
+<option value="2">其他</option>
+</select><br><br>
+帮助名称:<input type="text" placeholder="problemname" name="problemname" id="problemname"><br><br>
+帮助描述:<input type="text" placeholder="problemexplain" name="problemexplain" id="problemexplain"><br><br>
+是否显示:<select name="isshow"> 
+<option value="0">否</option> 
+<option value="1">是</option> 
+</select><br><br>
+<input type="submit" value="submit"><br><br>
+</form>
+</div>
+</body>
+</html>
