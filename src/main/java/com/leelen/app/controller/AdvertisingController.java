@@ -33,6 +33,7 @@ public class AdvertisingController {
 	@RequestMapping(value = "/pt", method = RequestMethod.GET)
 	public RespEntity getPtAdv(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "ptid") String ptid) {// ptid平台标识
+
 		return advertisingService.getAllAdvertisingByAdvtypeAndAuditstatusAndIsshow("0", 0, 0, "", token, sign);
 	}
 

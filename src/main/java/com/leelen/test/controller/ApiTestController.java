@@ -10,14 +10,17 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,14 +64,18 @@ public class ApiTestController {
 	// @Autowired
 	// PlotadvRepository plotadvRepository;
 
-	@RequestMapping("/login")
-	public String testApi(String username, String password, String sign) {
+	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+			"application/json;charset=UTF-8" }, consumes = {
+					"application/json" }, params = { "name=mike", "pwd=123456" }, headers = { "a=1" })
+	public String testApi(HttpServletRequest request, String username, String password, String sign) {
+		String srt = request.getParameter("str");
 		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("code", ApiConfigs.SUCCESS_Code);
+		jsonObject.put("code", ApiConfigs.SUCCESS_CODE);
 		jsonObject.put("msg", "登录成功");
 		// jsonObject.put("token", GetGUID());
 		jsonObject.put("token", MD5Tools.getToken("001", "123456", "20180419183700"));
-		return jsonObject.toString();
+		srt = srt == null ? "fail" : jsonObject.toString();
+		return srt;
 	}
 
 	// 测试
@@ -165,8 +172,10 @@ public class ApiTestController {
 		// response.setCode("0");
 		// response.setMessage("successfully");
 		// response.setData((Serializable) BeanMapper.mapList(users, User.class));
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();// HashMap的Key和Value可以为空，线程不安全
 		map.put("username", "11");
+		Map<String, Object> map2 = new Hashtable<String, Object>();// Hashtable的Key和Value都不能为空，线程安全
+		map2.put("notNullKey", "notNullValue");
 		return manageMsg.ok("successfully", map);
 	}
 

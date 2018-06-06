@@ -25,7 +25,7 @@ public interface AdvertisingService {
 			String plotid, String token, String sign);
 
 	// 根据审核状态获取广告
-	RespEntity getAllAdvertisingByAuditstatus(int auditstatus);
+	RespEntity getAllAdvertisingByAuditstatus(String advtype, int auditstatus);
 
 	// 获取所可显示的广告
 	RespEntity getAllAdvertisingByIsshow(int isshow);

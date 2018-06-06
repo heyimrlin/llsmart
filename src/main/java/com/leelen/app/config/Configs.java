@@ -12,11 +12,11 @@ package com.leelen.app.config;
  */
 public class Configs {
 
-	public static final String key = "93leelen";//平台秘钥
-	
-	public static final String client = "app";
-	
-	public static final String sysversions = "v1.0.0";
-	
-	public static final String systemname = "智慧社区";
+	public static final String KEY = "93leelen";// 平台秘钥
+
+	public static final String CLIENT = "app";
+
+	public static final String SYSVERSIONS = "v1.0.0";
+
+	public static final String SYSTEMNAME = "智慧社区";
 }

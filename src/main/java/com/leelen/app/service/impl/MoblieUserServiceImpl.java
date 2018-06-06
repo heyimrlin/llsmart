@@ -15,6 +15,8 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +40,8 @@ import com.leelen.utils.MD5Tools;
  */
 @Service
 public class MoblieUserServiceImpl implements MoblieUserService {
+
+	Logger logger = LoggerFactory.getLogger(getClass());
 
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date date = new Date();
@@ -71,7 +75,7 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 
 			return new RespEntity(RespCode.SUCCESS, null);
 		} else {
-			return new RespEntity(RespCode.TELL_Register, null);
+			return new RespEntity(RespCode.TELL_REGISTER, null);
 		}
 	}
 
@@ -88,7 +92,7 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 		String StrSign = "/yz/app/login?tell=" + tell + "&password=" + password + "&timestamp=" + timestamp;
 		if (MyMethod.verdictSign(StrSign, sign)) {
 			long tl = new Date().getTime();
-			System.out.println("系统时间:" + tl + "\t参数:" + timestamp);
+			logger.info("系统时间:" + tl + "\t参数:" + timestamp);
 			if (tl - 3000 < timestamp && timestamp < tl + 10000) {
 				MoblieUser moblieUser = moblieUserDao.findUserByTell(tell);
 				if (moblieUser != null) {
@@ -104,13 +108,13 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 					} else {
 						JSONObject json = new JSONObject();
 						json.put("token", MyMethod.GetGUID());
-						return new RespEntity(RespCode.Platform_No_User, json);
+						return new RespEntity(RespCode.PLATFORM_NO_USER, json);
 					}
 				} else {
-					return new RespEntity(RespCode.TELL_NotRegister, null);
+					return new RespEntity(RespCode.TELL_NOTREGISTER, null);
 				}
 			} else {
-				return new RespEntity(RespCode.Invalid_Request, null);
+				return new RespEntity(RespCode.INVALID_REQUEST, null);
 			}
 		} else {
 			return new RespEntity(RespCode.SIGN_ERROR, null);
@@ -140,7 +144,7 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 				return new RespEntity(RespCode.MODIFY_ERROR, null);
 			}
 		} else {
-			return new RespEntity(RespCode.TOKEN_Invalid, null);
+			return new RespEntity(RespCode.TOKEN_INVALID, null);
 		}
 	}
 
@@ -174,7 +178,7 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 				return new RespEntity(RespCode.OLD_PASWORD_ERROR, null);
 			}
 		} else {
-			return new RespEntity(RespCode.TOKEN_Invalid, null);
+			return new RespEntity(RespCode.TOKEN_INVALID, null);
 		}
 	}
 

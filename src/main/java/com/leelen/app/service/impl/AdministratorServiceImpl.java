@@ -120,7 +120,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 			json.put("plot", managerPoltService.getPoltByManagerId(administrator.getAid()));
 			return new RespEntity(RespCode.SUCCESS, json);
 		} else {
-			return new RespEntity(RespCode.TELL_NotRegister, null);
+			return new RespEntity(RespCode.TELL_NOTREGISTER, null);
 		}
 	}
 
@@ -142,12 +142,12 @@ public class AdministratorServiceImpl implements AdministratorService {
 				if (MyMethod.formatDate(wyToken.getTokentime()).getTime() > new Date().getTime()) {
 					if (administratorRepository.findByAid(wyToken.getAid()).getPassword().equals(oldpwd)) {
 						administratorRepository.modifyAdminPassword(newpwd, wyToken.getAid());
-						return new RespEntity(RespCode.TELL_NotRegister, null);
+						return new RespEntity(RespCode.TELL_NOTREGISTER, null);
 					} else {
 						return new RespEntity(RespCode.OLD_PASWORD_ERROR, null);
 					}
 				} else {
-					return new RespEntity(RespCode.TOKEN_Invalid, null);
+					return new RespEntity(RespCode.TOKEN_INVALID, null);
 				}
 			} else {
 				return new RespEntity(RespCode.TOKEN_ERROR, null);

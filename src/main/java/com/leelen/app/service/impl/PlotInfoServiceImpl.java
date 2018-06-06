@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
-import javax.servlet.http.Cookie;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,8 +90,6 @@ public class PlotInfoServiceImpl implements PlotInfoService {
 	public RespEntity getPlotByPlotid(String token, long timestamp, String app, String sign) {
 		// TODO Auto-generated method stub
 		// managerPoltService.getPlotByAid(wyTokenService.getAidByToken(token).getAid())
-		Cookie cookie = new Cookie("lastAccessTime", System.currentTimeMillis() + "");// 创建一个cookie，cookie的名字是lastAccessTime
-		cookie.setMaxAge(120);
 		List<ManagerPolt> managerPolts = managerPoltService.getPlotByAid(wyTokenService.getAidByToken(token).getAid());
 
 		String[] sArrays = new String[managerPolts.size()];
@@ -100,15 +97,8 @@ public class PlotInfoServiceImpl implements PlotInfoService {
 		for (int i = 0; i < managerPolts.size(); i++) {
 			sArrays[i] = managerPolts.get(i).getPlotid();
 		}
-		System.out.println(">>>" + sArrays.length + sArrays[0]);
 		logger.info("该管理员有" + sArrays.length + "小区");
 		List<PlotInfo> lInfos = plotInfoRepository.findByPlotstatusAndPlotidIn(0, sArrays);
-		// if()
-		// HttpServletRequest request = null;
-		// Cookie[] cookies = request.getCookies();
-		// if (cookies != null) {
-		logger.info(">>>>:" + Long.parseLong(cookie.getValue()));
-		// }
 		if (lInfos.size() > 0) {
 			return new RespEntity(RespCode.SUCCESS, lInfos);
 		} else {

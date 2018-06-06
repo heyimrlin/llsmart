@@ -40,7 +40,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
 		String sessionId = request.getRequestedSessionId();
 		// 获取请求路径
 		String uri = request.getRequestURI();
-		//获取请求参数信息
+		// 获取请求参数信息
 		String paramData = JSON.toJSONString(request.getParameterMap(),
 				SerializerFeature.DisableCircularReferenceDetect, SerializerFeature.WriteMapNullValue);
 		//
@@ -50,8 +50,8 @@ public class LoggerInterceptor implements HandlerInterceptor {
 	}
 
 	/*
-	 * (non-Javadoc)
-	 * .properties
+	 * (non-Javadoc) .properties
+	 * 
 	 * @see
 	 * org.springframework.web.servlet.HandlerInterceptor#postHandle(javax.servlet.
 	 * http.HttpServletRequest, javax.servlet.http.HttpServletResponse,

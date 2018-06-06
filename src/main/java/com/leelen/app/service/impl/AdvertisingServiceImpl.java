@@ -51,10 +51,10 @@ public class AdvertisingServiceImpl implements AdvertisingService {
 	 * com.leelen.app.service.AdvertisingService#getAllAdvertisingByAuditstatus(int)
 	 */
 	@Override
-	public RespEntity getAllAdvertisingByAuditstatus(int auditstatus) {
+	public RespEntity getAllAdvertisingByAuditstatus(String advtype, int auditstatus) {
 		// TODO Auto-generated method stub "0"广告类型，0表示平台广告 1表示小区广告
-		List<Advertising> advertisings = advertisingRepository.findByAdvtypeAndAuditstatusAndIsshow("0", auditstatus,
-				0);
+		List<Advertising> advertisings = advertisingRepository.findByAdvtypeAndAuditstatusAndIsshow(advtype,
+				auditstatus, 0);
 		return new RespEntity(RespCode.SUCCESS, advertisings);
 	}
 
@@ -66,7 +66,12 @@ public class AdvertisingServiceImpl implements AdvertisingService {
 	@Override
 	public RespEntity getAllAdvertisingByIsshow(int isshow) {
 		// TODO Auto-generated method stub
-		return null;
+		List<Advertising> advertisings = advertisingRepository.findByIsshow(isshow);
+		if (advertisings.size() > 0) {
+			return new RespEntity(RespCode.SUCCESS, advertisings);
+		} else {
+			return new RespEntity(RespCode.SUCCESS, "暂无数据");
+		}
 	}
 
 	/*

@@ -23,5 +23,8 @@ public interface AdvertisingRepository extends JpaRepository<Advertising, Intege
 	// 根据广告ID获取
 	Advertising findByAdvid(String advid);
 
+	//
+	List<Advertising> findByIsshow(int isshow);
+
 	// ...
 }

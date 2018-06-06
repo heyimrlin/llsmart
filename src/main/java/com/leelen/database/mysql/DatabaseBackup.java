@@ -72,8 +72,8 @@ public class DatabaseBackup {
 	 *            要备份的数据库名
 	 */
 	public void backup(OutputStream output, String dbname) {
-		String command = "cmd /c " + mysqlBinPath + "mysqldump -u" + username + " -p" + password
-				+ " --set-charset=utf8 " + dbname;
+		String command = "cmd /c " + mysqlBinPath + "mysql -u" + username + " -p" + password + " --set-charset=utf8 "
+				+ dbname;
 		PrintWriter p = null;
 		BufferedReader reader = null;
 		try {
@@ -180,5 +180,12 @@ public class DatabaseBackup {
 		// DatabaseBackup bak = new DatabaseBackup(binPath, userName, pwd);
 		// bak.backup("c:/ttt.sql", "ttt");
 		// bak.restore("c:/ttt.sql", "ttt");
+
+		String binPath = "C:\\Program Files\\MySQL\\MySQL Server 5.5\\bin";
+		String userName = "root";
+		String pwd = "xiaojx";
+		DatabaseBackup bak = new DatabaseBackup(binPath, userName, pwd);
+		bak.backup("c:/llsmart.sql", "llsmart");
+		bak.restore("c:/llsmart.sql", "llsmart");
 	}
 }
