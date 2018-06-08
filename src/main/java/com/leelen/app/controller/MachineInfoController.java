@@ -30,7 +30,8 @@ public class MachineInfoController {
 	MachineInfoService machineInfoService;
 
 	@Log("获取指定小区下的有效设备")
-	@RequestMapping(value = "/getPm", method = RequestMethod.POST)
+	@RequestMapping(value = "/getPm", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity getPlotOfMachine(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "plotid") String plotid) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -39,7 +40,8 @@ public class MachineInfoController {
 
 	// 根据卡id-->获取设备id集合-->获取设备信息数据集
 	@Log("根据卡id-->获取设备id集合-->获取设备信息数据集")
-	@RequestMapping(value = "/getCm", method = RequestMethod.GET)
+	@RequestMapping(value = "/getCm", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity getMachineByCardno(HttpServletRequest request, @RequestParam(value = "cardno") String cardno) {
 		return machineInfoService.getMachineByCardno(cardno);
 	}

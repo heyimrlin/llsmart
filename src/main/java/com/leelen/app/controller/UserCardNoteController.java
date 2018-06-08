@@ -32,7 +32,8 @@ public class UserCardNoteController {
 	UserCardNoteService userCardNoteService;
 
 	@Log("用户卡记录")
-	@RequestMapping(value = "/uploadCardNote", method = RequestMethod.GET)
+	@RequestMapping(value = "/uploadCardNote", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity uploadCardNote(UserCardNote userCardNote) {
 		logger.info("数据:" + userCardNote.getUid() + "单元:" + userCardNote.getUnlockunit());
 		return userCardNoteService.save(userCardNote);

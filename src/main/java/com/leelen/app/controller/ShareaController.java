@@ -32,7 +32,8 @@ public class ShareaController {
 	ShareaService shareaService;
 
 	@Log("获取地区号")
-	@RequestMapping(value = "/getCode", method = RequestMethod.GET)
+	@RequestMapping(value = "/getCode", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public Sharea getCode(@RequestParam(value = "shortname") String shortname) {
 		Sharea sharea = shareaService.getAreaCodeByShortname(shortname);
 		logger.info(sharea.getMergername() + ":" + sharea.getZip_code());

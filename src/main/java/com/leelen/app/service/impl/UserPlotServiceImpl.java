@@ -10,11 +10,16 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.leelen.app.repository.UserPlotRepository;
+import com.leelen.app.service.MoblieUserService;
 import com.leelen.app.service.UserPlotService;
+import com.leelen.entitys.RespCode;
+import com.leelen.entitys.RespEntity;
 import com.leelen.entitys.UserPlot;
 
 /**
@@ -29,6 +34,9 @@ public class UserPlotServiceImpl implements UserPlotService {
 
 	@Autowired
 	UserPlotRepository userPlotRepository;
+
+	@Resource
+	MoblieUserService moblieUserService;
 
 	/*
 	 * (non-Javadoc)
@@ -50,6 +58,19 @@ public class UserPlotServiceImpl implements UserPlotService {
 	public List<UserPlot> getUidByPlotId(String plotid) {
 		// TODO Auto-generated method stub
 		return userPlotRepository.findByPlotid(plotid);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.UserPlotService#getPlotsByUid(java.lang.String)
+	 */
+	@Override
+	public RespEntity getPlotsByUid(String token) {
+		// TODO Auto-generated method stub
+		// moblieUserService.findByUid(token).getToken();
+		return new RespEntity(RespCode.SUCCESS,
+				userPlotRepository.findByUid(moblieUserService.findByUid(token).getUid()));
 	}
 
 }

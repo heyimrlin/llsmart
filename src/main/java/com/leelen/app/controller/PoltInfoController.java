@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leelen.app.service.ManagerPoltService;
 import com.leelen.app.service.PlotInfoService;
+import com.leelen.app.service.UserPlotService;
 import com.leelen.app.service.WyTokenService;
 import com.leelen.common.annotation.Log;
 import com.leelen.entitys.RespEntity;
@@ -36,13 +37,29 @@ public class PoltInfoController {
 	@Resource
 	WyTokenService wyTokenService;
 
+	@Resource
+	UserPlotService userPlotService;
+
 	// 根据管理员id获取小区
 	@Log("根据管理员id获取小区")
-	@RequestMapping(value = "/get", method = RequestMethod.GET)
+	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity getPlotInfoByAid(HttpServletRequest request, @RequestParam(value = "token") String token,
 			@RequestParam(value = "sign") String sign, @RequestParam(value = "app") String app) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
 		return plotInfoService.getPlotByPlotid(token, timestamp, app, sign);
 
 	}
+
+	// 获取我的小区
+	@Log("根据用户id获取小区")
+	@RequestMapping(value = "/mypolt", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	public RespEntity getPlotInfoByUid(HttpServletRequest request, @RequestParam(value = "token") String token,
+			@RequestParam(value = "sign") String sign, @RequestParam(value = "app") String app) {
+		long timestamp = Long.parseLong(request.getParameter("timestamp"));
+		return userPlotService.getPlotsByUid(token);
+
+	}
+
 }

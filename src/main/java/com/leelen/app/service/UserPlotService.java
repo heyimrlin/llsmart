@@ -8,6 +8,7 @@ package com.leelen.app.service;
 
 import java.util.List;
 
+import com.leelen.entitys.RespEntity;
 import com.leelen.entitys.UserPlot;
 
 /**
@@ -18,6 +19,8 @@ public interface UserPlotService {
 
 	// 根据用户id获取对应小区
 	List<UserPlot> getPlotByUid(String uid);
+
+	RespEntity getPlotsByUid(String uid);
 
 	// 根据小区id获取对应住户
 	List<UserPlot> getUidByPlotId(String plotid);

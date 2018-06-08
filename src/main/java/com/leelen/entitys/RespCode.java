@@ -38,6 +38,7 @@ public enum RespCode {
 	, TELL_REGISTER(4204, "该号码已被注册")
 	, TELL_NOTREGISTER(4205, "用户名或密码错误")
 	, MODIFY_ERROR(4206, "修改失败 ")
+	, MODIFY_SUCCESS(0, "修改成功 ")
 	, PLATFORM_NO_USER(4207, "平台未配置该用户 ");
 
 	private int code;

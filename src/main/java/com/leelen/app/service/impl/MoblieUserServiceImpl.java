@@ -135,11 +135,12 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 		if (moblieUser != null && MyMethod.formatDate(moblieUser.getTokentime()).getTime() >= new Date().getTime()
 				- 7 * 24 * 60 * 60 * 1000) {
 			if (moblieUserRepository.resetPwd(MD5Tools.MD5("12345678"), token) == 1) {
-				String newToken = MyMethod.GetGUID();
-				moblieUserRepository.updateToken(newToken, MyMethod.getDate(), moblieUser.getTell());
-				JSONObject json = new JSONObject();
-				json.put("token", newToken);
-				return new RespEntity(RespCode.SUCCESS, json);
+				// String newToken = MyMethod.GetGUID();
+				// moblieUserRepository.updateToken(newToken, MyMethod.getDate(),
+				// moblieUser.getTell());
+				// JSONObject json = new JSONObject();
+				// json.put("token", newToken);
+				return new RespEntity(RespCode.MODIFY_SUCCESS, null);
 			} else {
 				return new RespEntity(RespCode.MODIFY_ERROR, null);
 			}
@@ -165,12 +166,13 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 			if (moblieUser.getPassword().equals(oldpwd)) {
 				if (moblieUserRepository.modifyPwd(password, token) == 1) {
 					// token会更新
-					String newToken = MyMethod.GetGUID();
-					moblieUserRepository.updateToken(newToken, MyMethod.getDate(), moblieUser.getTell());
-					JSONObject json = new JSONObject();
-					json.put("token", newToken);
+					// String newToken = MyMethod.GetGUID();
+					// moblieUserRepository.updateToken(newToken, MyMethod.getDate(),
+					// moblieUser.getTell());//更新token
+					// JSONObject json = new JSONObject();
+					// json.put("token", newToken);
 
-					return new RespEntity(RespCode.SUCCESS, json);
+					return new RespEntity(RespCode.MODIFY_SUCCESS, null);
 				} else {
 					return new RespEntity(RespCode.MODIFY_ERROR, null);
 				}
@@ -261,6 +263,28 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 	public List<MoblieUser> getMoblieUser() {
 		// TODO Auto-generated method stub
 		return moblieUserRepository.findAll();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.MoblieUserService#findByUid(java.lang.String)
+	 */
+	@Override
+	public MoblieUser findByUid(String uid) {
+		// TODO Auto-generated method stub
+		return moblieUserRepository.findByUid(uid);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.MoblieUserService#findByToken(java.lang.String)
+	 */
+	@Override
+	public MoblieUser findByToken(String token) {
+		// TODO Auto-generated method stub
+		return moblieUserRepository.findByToken(token);
 	}
 
 }

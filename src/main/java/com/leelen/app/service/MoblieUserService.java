@@ -49,4 +49,8 @@ public interface MoblieUserService {
 	// -----------------------------------------------------------
 	List<MoblieUser> getMoblieUser();
 
+	MoblieUser findByUid(String uid);
+
+	MoblieUser findByToken(String token);
+
 }

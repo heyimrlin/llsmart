@@ -38,7 +38,8 @@ public class MoblieUserController {
 	MoblieUserService moblieUserService;
 
 	@Log("用户登录")
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity login(HttpServletRequest request, @RequestParam(value = "tell") String tell,
 			@RequestParam(value = "password") String password) {
 		String sign = request.getParameter("sign");
@@ -49,7 +50,8 @@ public class MoblieUserController {
 	}
 
 	@Log("获取有效成员")
-	@RequestMapping(value = "/getMember", method = RequestMethod.POST)
+	@RequestMapping(value = "/getMember", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity getMember(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -57,7 +59,8 @@ public class MoblieUserController {
 	}
 
 	@Log("修改密码")
-	@RequestMapping(value = "/modifyPwd", method = RequestMethod.POST)
+	@RequestMapping(value = "/modifyPwd", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity modifyPwd(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "oldpwd") String oldpwd,
 			@RequestParam(value = "password") String password) throws ParseException {
@@ -67,7 +70,8 @@ public class MoblieUserController {
 	}
 
 	@Log("重置密码")
-	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST)
+	@RequestMapping(value = "/resetPwd", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity resetPwd(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) throws ParseException {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -76,7 +80,8 @@ public class MoblieUserController {
 
 	// 退出登录
 	@Log("退出登录")
-	@RequestMapping(value = "/loginOut", method = RequestMethod.GET)
+	@RequestMapping(value = "/loginOut", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public Map<String, Object> loginOut(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) {
 		System.out.println("token:" + token + ">>sign:" + sign);

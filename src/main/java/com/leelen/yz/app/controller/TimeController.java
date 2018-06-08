@@ -28,7 +28,8 @@ public class TimeController {
 	Date date = new Date();
 
 	// 获取时间
-	@RequestMapping(value = "/getTime", method = RequestMethod.GET)
+	@RequestMapping(value = "/getTime", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public AppMsg getTime() {
 		return new AppMsg(0, "平台时间", System.currentTimeMillis());
 	}

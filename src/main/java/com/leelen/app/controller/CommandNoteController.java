@@ -30,7 +30,8 @@ public class CommandNoteController {
 	CommandNoteService commandNoteService;
 
 	@Log("生成口令")
-	@RequestMapping(value = "/productCommand", method = RequestMethod.GET)
+	@RequestMapping(value = "/productCommand", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity productCommand(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam String unit,
 			@RequestParam(value = "app") String app) {

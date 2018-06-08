@@ -35,7 +35,8 @@ public class SysUserController {
 	}
 
 	@Log("更改用户状态")
-	@RequestMapping(value = "/updateuseable", method = RequestMethod.GET)
+	@RequestMapping(value = "/updateuseable", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity updateuseable(@RequestParam(value = "useable") int useable,
 			@RequestParam(value = "tell") String tell) {
 		if (sysUserService.modifyUserStatus(useable, tell) == 1) {

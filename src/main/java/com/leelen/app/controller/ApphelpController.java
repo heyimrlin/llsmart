@@ -27,7 +27,8 @@ public class ApphelpController {
 	ApphelpService apphelpService;
 
 	@Log("获取帮助")
-	@RequestMapping("/getApphelp")
+	@RequestMapping(value = "/getApphelp", produces = { "application/json;charset=UTF-8" }, consumes = {
+			"application/json" })
 	public RespEntity getApphelp(@RequestParam("status") int status) {
 		return apphelpService.getAllApphelpByStatus(status);
 	}

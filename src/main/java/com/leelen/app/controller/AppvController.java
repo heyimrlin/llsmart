@@ -26,13 +26,15 @@ public class AppvController {
 	AppvService appvService;
 
 	@Log("业主APP")
-	@RequestMapping("/yz/appv")
+	@RequestMapping(value = "/yz/appv", produces = { "application/json;charset=UTF-8" }, consumes = {
+			"application/json" })
 	public RespEntity getyzAppvData() {
 		return appvService.getAppV(1);
 	}
 
 	@Log("物业APP")
-	@RequestMapping("/wy/appv")
+	@RequestMapping(value = "/wy/appv", produces = { "application/json;charset=UTF-8" }, consumes = {
+			"application/json" })
 	public RespEntity getwyAppvData() {
 		return appvService.getAppV(2);
 	}

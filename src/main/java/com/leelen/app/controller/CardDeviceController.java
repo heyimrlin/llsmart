@@ -30,7 +30,8 @@ public class CardDeviceController {
 	CardDeviceService cardDeviceService;
 
 	@Log("门禁卡、设备")
-	@RequestMapping(value = "/getDevice", method = RequestMethod.GET)
+	@RequestMapping(value = "/getDevice", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public List<CardDevice> getDevice(@RequestParam(name = "cardno") String cardno) {
 		return cardDeviceService.getDeviceDataByCard(cardno);
 	}

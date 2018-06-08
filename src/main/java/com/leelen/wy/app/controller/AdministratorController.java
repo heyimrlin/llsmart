@@ -34,7 +34,8 @@ public class AdministratorController {
 	AdministratorService administratorService;
 
 	@Log("物业端登录")
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "/login", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity login(HttpServletRequest request, @RequestParam(value = "accounttell") String accounttell,
 			@RequestParam(value = "password") String password) {
 		String sign = request.getParameter("sign");
@@ -46,7 +47,8 @@ public class AdministratorController {
 
 	// 修改密码
 	@Log("修改密码")
-	@RequestMapping(value = "/modifyPwd", method = RequestMethod.GET)
+	@RequestMapping(value = "/modifyPwd", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity modifyPwd(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestParam(value = "oldpwd") String oldpwd, @RequestParam(value = "newpwd") String newpwd,
 			@RequestHeader(value = "sign") String sign) {
@@ -57,7 +59,8 @@ public class AdministratorController {
 
 	// 重置密码
 	@Log("重置密码")
-	@RequestMapping("/resetPwd")
+	@RequestMapping(value = "/resetPwd", produces = { "application/json;charset=UTF-8" }, consumes = {
+			"application/json" })
 	public RespEntity resetPwd(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -67,7 +70,8 @@ public class AdministratorController {
 
 	// 修改手机号
 	@Log("更改手机号")
-	@RequestMapping("/modifyphone")
+	@RequestMapping(value = "/modifyphone", produces = { "application/json;charset=UTF-8" }, consumes = {
+			"application/json" })
 	public RespEntity modifyPhone(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "tell") String tell) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
