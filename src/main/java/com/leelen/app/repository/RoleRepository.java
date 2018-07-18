@@ -16,4 +16,6 @@ import com.leelen.entitys.Role;
  */
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
+	// 根据角色id
+	Role findByRoleid(String roleid);
 }

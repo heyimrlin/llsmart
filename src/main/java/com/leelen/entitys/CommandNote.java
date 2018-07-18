@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "commandnote", schema = "llsmart", catalog = "")
-public class CommandNote {
+public class CommandNote implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -206,6 +213,67 @@ public class CommandNote {
 		this.isuse = isuse;
 		this.validtime = validtime;
 		this.createtime = createtime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((command == null) ? 0 : command.hashCode());
+		result = prime * result + ((createid == null) ? 0 : createid.hashCode());
+		result = prime * result + ((createtime == null) ? 0 : createtime.hashCode());
+		result = prime * result + id;
+		result = prime * result + isuse;
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		result = prime * result + ((unit == null) ? 0 : unit.hashCode());
+		result = prime * result + ((validtime == null) ? 0 : validtime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CommandNote other = (CommandNote) obj;
+		if (command == null) {
+			if (other.command != null)
+				return false;
+		} else if (!command.equals(other.command))
+			return false;
+		if (createid == null) {
+			if (other.createid != null)
+				return false;
+		} else if (!createid.equals(other.createid))
+			return false;
+		if (createtime == null) {
+			if (other.createtime != null)
+				return false;
+		} else if (!createtime.equals(other.createtime))
+			return false;
+		if (id != other.id)
+			return false;
+		if (isuse != other.isuse)
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		if (unit == null) {
+			if (other.unit != null)
+				return false;
+		} else if (!unit.equals(other.unit))
+			return false;
+		if (validtime == null) {
+			if (other.validtime != null)
+				return false;
+		} else if (!validtime.equals(other.validtime))
+			return false;
+		return true;
 	}
 
 }

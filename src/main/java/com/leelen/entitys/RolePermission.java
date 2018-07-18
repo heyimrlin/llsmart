@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "role_permission", schema = "llsmart", catalog = "")
-public class RolePermission {
+public class RolePermission implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +39,7 @@ public class RolePermission {
 
 	@Basic
 	@Column(name = "opid", nullable = false)
-	private int opid;// 权限ID
+	private String opid;// 权限ID
 
 	@Basic
 	@Column(name = "isuse", nullable = false)
@@ -71,7 +78,7 @@ public class RolePermission {
 	/**
 	 * @return the opid
 	 */
-	public int getOpid() {
+	public String getOpid() {
 		return opid;
 	}
 
@@ -79,7 +86,7 @@ public class RolePermission {
 	 * @param opid
 	 *            the opid to set
 	 */
-	public void setOpid(int opid) {
+	public void setOpid(String opid) {
 		this.opid = opid;
 	}
 
@@ -122,12 +129,49 @@ public class RolePermission {
 	 * @param opid
 	 * @param isuse
 	 */
-	public RolePermission(int id, String roleid, int opid, int isuse) {
+	public RolePermission(int id, String roleid, String opid, int isuse) {
 		super();
 		this.id = id;
 		this.roleid = roleid;
 		this.opid = opid;
 		this.isuse = isuse;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + isuse;
+		result = prime * result + ((opid == null) ? 0 : opid.hashCode());
+		result = prime * result + ((roleid == null) ? 0 : roleid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RolePermission other = (RolePermission) obj;
+		if (id != other.id)
+			return false;
+		if (isuse != other.isuse)
+			return false;
+		if (opid == null) {
+			if (other.opid != null)
+				return false;
+		} else if (!opid.equals(other.opid))
+			return false;
+		if (roleid == null) {
+			if (other.roleid != null)
+				return false;
+		} else if (!roleid.equals(other.roleid))
+			return false;
+		return true;
 	}
 
 }

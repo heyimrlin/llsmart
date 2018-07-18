@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "userplot", schema = "llsmart", catalog = "")
-public class UserPlot {
+public class UserPlot implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -176,6 +183,77 @@ public class UserPlot {
 		this.plotname = plotname;
 		this.buildingname = buildingname;
 		this.room = room;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((buildingname == null) ? 0 : buildingname.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((plotid == null) ? 0 : plotid.hashCode());
+		result = prime * result + ((plotname == null) ? 0 : plotname.hashCode());
+		result = prime * result + ((room == null) ? 0 : room.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserPlot other = (UserPlot) obj;
+		if (buildingname == null) {
+			if (other.buildingname != null)
+				return false;
+		} else if (!buildingname.equals(other.buildingname))
+			return false;
+		if (id != other.id)
+			return false;
+		if (plotid == null) {
+			if (other.plotid != null)
+				return false;
+		} else if (!plotid.equals(other.plotid))
+			return false;
+		if (plotname == null) {
+			if (other.plotname != null)
+				return false;
+		} else if (!plotname.equals(other.plotname))
+			return false;
+		if (room == null) {
+			if (other.room != null)
+				return false;
+		} else if (!room.equals(other.room))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		return true;
+	}
+
+	/**
+	 * <p>
+	 * Title: clone
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @return
+	 * @throws CloneNotSupportedException
+	 * @see java.lang.Object#clone()
+	 */
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return (UserPlot) super.clone();
 	}
 
 }

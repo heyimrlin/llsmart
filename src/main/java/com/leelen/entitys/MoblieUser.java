@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "moblieuser", schema = "llsmart", catalog = "")
-public class MoblieUser {
+public class MoblieUser implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -278,6 +285,82 @@ public class MoblieUser {
 		this.isonline = isonline;
 		this.lastlogintime = lastlogintime;
 		this.loginip = loginip;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + isonline;
+		result = prime * result + isplatform;
+		result = prime * result + ((lastlogintime == null) ? 0 : lastlogintime.hashCode());
+		result = prime * result + ((loginip == null) ? 0 : loginip.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((registertime == null) ? 0 : registertime.hashCode());
+		result = prime * result + ((tell == null) ? 0 : tell.hashCode());
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
+		result = prime * result + ((tokentime == null) ? 0 : tokentime.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MoblieUser other = (MoblieUser) obj;
+		if (id != other.id)
+			return false;
+		if (isonline != other.isonline)
+			return false;
+		if (isplatform != other.isplatform)
+			return false;
+		if (lastlogintime == null) {
+			if (other.lastlogintime != null)
+				return false;
+		} else if (!lastlogintime.equals(other.lastlogintime))
+			return false;
+		if (loginip == null) {
+			if (other.loginip != null)
+				return false;
+		} else if (!loginip.equals(other.loginip))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (registertime == null) {
+			if (other.registertime != null)
+				return false;
+		} else if (!registertime.equals(other.registertime))
+			return false;
+		if (tell == null) {
+			if (other.tell != null)
+				return false;
+		} else if (!tell.equals(other.tell))
+			return false;
+		if (token == null) {
+			if (other.token != null)
+				return false;
+		} else if (!token.equals(other.token))
+			return false;
+		if (tokentime == null) {
+			if (other.tokentime != null)
+				return false;
+		} else if (!tokentime.equals(other.tokentime))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		return true;
 	}
 
 }

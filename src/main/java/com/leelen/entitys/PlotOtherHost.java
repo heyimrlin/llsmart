@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "plototherhost", schema = "llsmart", catalog = "")
-public class PlotOtherHost {
+public class PlotOtherHost implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -215,6 +222,64 @@ public class PlotOtherHost {
 		this.username = username;
 		this.createtime = createtime;
 		this.isuse = isuse;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((createtime == null) ? 0 : createtime.hashCode());
+		result = prime * result + id;
+		result = prime * result + isallot;
+		result = prime * result + isuse;
+		result = prime * result + ((pwd == null) ? 0 : pwd.hashCode());
+		result = prime * result + ((usehost == null) ? 0 : usehost.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
+		result = prime * result + ((whocreate == null) ? 0 : whocreate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlotOtherHost other = (PlotOtherHost) obj;
+		if (createtime == null) {
+			if (other.createtime != null)
+				return false;
+		} else if (!createtime.equals(other.createtime))
+			return false;
+		if (id != other.id)
+			return false;
+		if (isallot != other.isallot)
+			return false;
+		if (isuse != other.isuse)
+			return false;
+		if (pwd == null) {
+			if (other.pwd != null)
+				return false;
+		} else if (!pwd.equals(other.pwd))
+			return false;
+		if (usehost == null) {
+			if (other.usehost != null)
+				return false;
+		} else if (!usehost.equals(other.usehost))
+			return false;
+		if (username == null) {
+			if (other.username != null)
+				return false;
+		} else if (!username.equals(other.username))
+			return false;
+		if (whocreate == null) {
+			if (other.whocreate != null)
+				return false;
+		} else if (!whocreate.equals(other.whocreate))
+			return false;
+		return true;
 	}
 
 }

@@ -49,14 +49,10 @@ public class SysUserServiceImpl implements SysUserService {
 	 * com.leelen.app.service.SysUserService#checkUserInMoblie(java.lang.String)
 	 */
 	@Override
-	public boolean checkUserInMoblie(String tell) {
+	public SysUser checkUserInMoblie(String tell) {
 		// TODO Auto-generated method stub
 		SysUser sysUser = sysUserRepository.findByTell(tell);
-		if (sysUser != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return sysUser;
 	}
 
 	/*

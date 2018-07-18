@@ -9,6 +9,8 @@ package com.leelen.app.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,8 @@ import com.leelen.entitys.UserCardNote;
 @Service
 public class UserCardNoteServiceImpl implements UserCardNoteService {
 
+	Logger logger = LoggerFactory.getLogger(getClass());
+
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date date = new Date();
 
@@ -40,7 +44,22 @@ public class UserCardNoteServiceImpl implements UserCardNoteService {
 	@Override
 	public RespEntity save(UserCardNote userCardNote) {
 		// TODO Auto-generated method stub
+
 		userCardNoteRepository.save(userCardNote);
+		return new RespEntity(RespCode.SUCCESS, null);
+	}
+
+	@Override
+	public RespEntity save(UserCardNote[] userCardNote) {
+		// TODO Auto-generated method stub
+		// UserCardNote[] userCardNote = null;//待做优化处理
+		if (userCardNote.length != 0) {
+			for (UserCardNote uCardNote : userCardNote) {
+				logger.info("数据:设备id:" + uCardNote.getEgid() + "进出类型:" + uCardNote.getInouttype() + "用户id:"
+						+ uCardNote.getUid());
+				userCardNoteRepository.save(uCardNote);// 数据库操作频繁
+			}
+		}
 		return new RespEntity(RespCode.SUCCESS, null);
 	}
 

@@ -11,22 +11,35 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.leelen.app.repository.AdministratorRepository;
+import com.leelen.app.repository.PermissionRepository;
+import com.leelen.app.repository.PlotRepository;
+import com.leelen.app.repository.RolePermissionRepository;
+import com.leelen.app.repository.RoleRepository;
 import com.leelen.app.repository.WyTokenRepository;
 import com.leelen.app.service.AdministratorService;
+import com.leelen.app.service.AppmenusService;
 import com.leelen.app.service.ManagerPoltService;
+import com.leelen.app.service.RolePermissionService;
+import com.leelen.app.service.WyTokenService;
 import com.leelen.entitys.Administrator;
+import com.leelen.entitys.ManagerPolt;
+import com.leelen.entitys.Plot;
 import com.leelen.entitys.R;
 import com.leelen.entitys.RespCode;
 import com.leelen.entitys.RespEntity;
 import com.leelen.entitys.WyToken;
 import com.leelen.publicmethod.MyMethod;
 import com.leelen.utils.MD5Tools;
+import com.leelen.utils.StringUtil;
 
 /**
  * @author xiaoxl
@@ -34,6 +47,8 @@ import com.leelen.utils.MD5Tools;
  */
 @Service
 public class AdministratorServiceImpl implements AdministratorService {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());
 
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date date = new Date();
@@ -46,6 +61,27 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	@Autowired
 	WyTokenRepository wyTokenRepository;
+
+	@Autowired
+	RolePermissionRepository rolePermissionRepository;
+
+	@Resource
+	RolePermissionService rolePermissionService;
+
+	@Autowired
+	RoleRepository roleRepository;
+
+	@Autowired
+	PermissionRepository permissionRepository;
+
+	@Autowired
+	PlotRepository plotRepository;
+
+	@Resource
+	WyTokenService wyTokenService;
+
+	@Resource
+	AppmenusService appmenusService;
 
 	/*
 	 * (non-Javadoc)
@@ -93,10 +129,28 @@ public class AdministratorServiceImpl implements AdministratorService {
 	 * Administrator)
 	 */
 	@Override
-	public RespEntity save(Administrator administrator) {
+	public RespEntity save(HttpServletRequest request, Administrator administrator) {
 		// TODO Auto-generated method stub
-		administratorRepository.save(administrator);
-		return new RespEntity(RespCode.SUCCESS, null);
+		String aid = MyMethod.getDateStr(new Date()) + MyMethod.ramdaSw(4);
+		administrator.setAid(aid);
+		administrator.setCreatetime(dateFormater.format(date));
+		try {
+			MyMethod myMethod = new MyMethod();
+			String adminname = myMethod.getCookieByName(request, "accounttell").getValue();
+			if (StringUtil.isNotEmpty(adminname)) {
+				administrator.setCreator(adminname);
+				administratorRepository.save(administrator);
+				WyToken wyToken = new WyToken();
+				wyToken.setAid(aid);
+				wyTokenRepository.save(wyToken);
+				return new RespEntity(RespCode.SAVE_SUCCESS, null);
+			} else {
+				return new RespEntity(RespCode.SAVE_FAIL, null);
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return new RespEntity(RespCode.SAVE_FAIL, null);
 	}
 
 	/*
@@ -112,13 +166,34 @@ public class AdministratorServiceImpl implements AdministratorService {
 		Administrator administrator = administratorRepository.findByTellOrAccountAndPasswordAndIsuse(tellaccount,
 				tellaccount, password, 0);
 		if (administrator != null) {
-			JSONObject json = new JSONObject();
-			json.put("nickname", administrator.getNickname());
-			json.put("account", administrator.getAccount());
-			json.put("tell", administrator.getTell());
-			json.put("token", MyMethod.GetGUID());
-			json.put("plot", managerPoltService.getPoltByManagerId(administrator.getAid()));
-			return new RespEntity(RespCode.SUCCESS, json);
+			String tokenStr = MyMethod.GetGUID();
+			if (administrator.getRoleid() == "0" || administrator.getRoleid() == "1") {
+				JSONObject json = new JSONObject();
+				json.put("nickname", administrator.getNickname());
+				json.put("account", administrator.getAccount());
+				json.put("tell", administrator.getTell());
+				json.put("token", tokenStr);
+				json.put("plot", managerPoltService.getPoltByManagerId(administrator.getAid()));
+				json.put("permission", appmenusService.getAppmenusByRoleid(administrator.getRoleid()));// 通过权限id集合匹配权限
+				// json.put("permission", permissionRepository
+				// .findByOpidIn(rolePermissionService.getPermissionByRole(administrator.getRoleid())));//
+				// 通过权限id集合匹配权限
+				json.put("rolename", roleRepository.findByRoleid(administrator.getRoleid()).getRolename());
+
+				// 登录成功后更新token并返回
+				wyTokenService.updateToken(administrator.getAid(), tokenStr, dateFormater.format(date));// 管理端登录更新token
+
+				return new RespEntity(RespCode.SUCCESS, json);
+			} else {
+				if (sign == "93leelen") {
+					logger.info(">>" + sign);
+					wyTokenService.updateToken(administrator.getAid(), tokenStr, dateFormater.format(date));// 平台登录更新token
+					return new RespEntity(RespCode.SUCCESS, null);
+				} else {
+					logger.info(roleRepository.findByRoleid(administrator.getRoleid()).getRolename() + " 禁止登录");
+					return new RespEntity(RespCode.FORBID_LOGIN, null);
+				}
+			}
 		} else {
 			return new RespEntity(RespCode.TELL_NOTREGISTER, null);
 		}
@@ -202,6 +277,30 @@ public class AdministratorServiceImpl implements AdministratorService {
 	public R updateAdmin(Administrator administrator) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.AdministratorService#getMyPlot(java.lang.String)
+	 */
+	@Override
+	public RespEntity getMyPlot(String token) {
+		// TODO Auto-generated method stub
+		List<ManagerPolt> managerPolts = managerPoltService.getPlotByAid(wyTokenService.getAidByToken(token).getAid());
+		String[] sArrays = new String[managerPolts.size()];
+
+		for (int i = 0; i < managerPolts.size(); i++) {
+			sArrays[i] = managerPolts.get(i).getPlotid();
+		}
+		List<Plot> plots = plotRepository.findByPlotidIn(sArrays);
+		JSONObject json = new JSONObject();
+		List<String> lStr = null;
+		for (int i = 0; i < plots.size(); i++) {
+			lStr.add(plots.get(i).getPlotname());
+		}
+		json.put("plot", lStr);
+		return new RespEntity(RespCode.SUCCESS, json);
 	}
 
 }

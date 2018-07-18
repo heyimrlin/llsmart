@@ -19,8 +19,14 @@ import com.leelen.entitys.RespEntity;
  */
 public interface MoblieUserService {
 
+	// 修改手机号
+	RespEntity modifyTell(String token, String tell, String code);
+
+	// 修改昵称
+	RespEntity modifyUsername(String token, String username);
+
 	// 用户注册
-	RespEntity save(MoblieUser moblieUser);
+	RespEntity save(String tell, String password, String verification);
 
 	// 登录
 	RespEntity login(String tell, String password, String sign, long timestamp, int isplatform);
@@ -38,8 +44,12 @@ public interface MoblieUserService {
 	// 业主获取成员
 	RespEntity getMember(String token, long timestamp, String sign);
 
+	// 业主添加成员
+	RespEntity addMember(String token, long timestamp, String sign, String nickname, String tell, String plotid,
+			String buildingname, String room);
+
 	// 业主修改成员
-	RespEntity updateUser(String username, String tell, String uid);// uid是业主id,要判断小区是否可以
+	RespEntity updateUser(String token, long timestamp, String sign, String nickname, String tell);// token是业主token,要判断小区是否可以
 
 	// 业主删除成员
 	RespEntity deleteUser(String uid);
@@ -52,5 +62,8 @@ public interface MoblieUserService {
 	MoblieUser findByUid(String uid);
 
 	MoblieUser findByToken(String token);
+
+	// 判断用户是否在平台已配置
+	MoblieUser platformishave(String tell);
 
 }

@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "systeminfo", schema = "llsmart", catalog = "")
-public class SystemInfo {
+public class SystemInfo implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -150,6 +157,52 @@ public class SystemInfo {
 		this.zhi = zhi;
 		this.roleid = roleid;
 		this.otime = otime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		result = prime * result + ((jian == null) ? 0 : jian.hashCode());
+		result = prime * result + ((otime == null) ? 0 : otime.hashCode());
+		result = prime * result + ((roleid == null) ? 0 : roleid.hashCode());
+		result = prime * result + ((zhi == null) ? 0 : zhi.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SystemInfo other = (SystemInfo) obj;
+		if (id != other.id)
+			return false;
+		if (jian == null) {
+			if (other.jian != null)
+				return false;
+		} else if (!jian.equals(other.jian))
+			return false;
+		if (otime == null) {
+			if (other.otime != null)
+				return false;
+		} else if (!otime.equals(other.otime))
+			return false;
+		if (roleid == null) {
+			if (other.roleid != null)
+				return false;
+		} else if (!roleid.equals(other.roleid))
+			return false;
+		if (zhi == null) {
+			if (other.zhi != null)
+				return false;
+		} else if (!zhi.equals(other.zhi))
+			return false;
+		return true;
 	}
 
 }

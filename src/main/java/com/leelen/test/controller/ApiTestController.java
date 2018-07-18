@@ -14,8 +14,11 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.scheduling.annotation.Scheduled;
@@ -27,12 +30,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.leelen.common.exception.MyException;
 import com.leelen.entity.ManageMsg;
 import com.leelen.entity.Msg;
 import com.leelen.entity.R;
 import com.leelen.entity.UserEntity;
+import com.leelen.entitys.RespCode;
+import com.leelen.entitys.RespEntity;
 import com.leelen.msg.config.ApiConfigs;
 import com.leelen.publicmethod.MyMethod;
+import com.leelen.utils.ClientOsInfo;
 import com.leelen.utils.MD5Tools;
 
 /**
@@ -78,6 +85,16 @@ public class ApiTestController {
 		return srt;
 	}
 
+	// 判断请求来自移动端访问还是PC端访问
+	@RequestMapping("/checkClient")
+	public RespEntity checkClient(HttpServletRequest request) {
+		if (ClientOsInfo.JudgeIsMoblie(request)) {
+			return new RespEntity(RespCode.SUCCESS, null);
+		} else {
+			return new RespEntity(RespCode.ILLEGALITY_REQUEST, null);
+		}
+	}
+
 	// 测试
 
 	@RequestMapping("/getUserList")
@@ -113,6 +130,64 @@ public class ApiTestController {
 	public String test(@RequestParam @NotNull String appname) {
 
 		return appname;
+	}
+
+	@RequestMapping(value = "/test/getCode", method = RequestMethod.GET, produces = {
+			"application/json;charset=UTF-8" })
+	public String getCode(HttpServletResponse response, HttpServletRequest request) {
+		System.out.println("验证码");
+		try {
+			String code = getCookieByName(request, "code").getValue();
+			if ("".equals(code)) {
+				return "请重新获取验证码";
+			} else {
+				Cookie cookie = new Cookie("code", code);
+				cookie.setMaxAge(0);
+				cookie.setPath("/");
+				System.out.println("被删除的cookie名字为:" + cookie.getName());
+				response.addCookie(cookie);
+				return "验证码:" + code;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+		}
+		return "请重新获取验证码";
+	}
+
+	/**
+	 * 根据名字获取cookie
+	 * 
+	 * @param request
+	 * @param name
+	 *            cookie名字
+	 * @return
+	 */
+	public Cookie getCookieByName(HttpServletRequest request, String name) {
+		Map<String, Cookie> cookieMap = ReadCookieMap(request);
+		if (cookieMap.containsKey(name)) {
+			Cookie cookie = (Cookie) cookieMap.get(name);
+			return cookie;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 将cookie封装到Map里面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private Map<String, Cookie> ReadCookieMap(HttpServletRequest request) {
+		Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+		Cookie[] cookies = request.getCookies();
+		if (null != cookies) {
+			for (Cookie cookie : cookies) {
+				cookieMap.put(cookie.getName(), cookie);
+			}
+		}
+		return cookieMap;
 	}
 
 	/*
@@ -185,6 +260,49 @@ public class ApiTestController {
 		return manageMsg.error(4, "请求失败");
 	}
 
+	@RequestMapping("/getIp")
+	public @ResponseBody ManageMsg getIp(HttpServletRequest request) {
+		MyMethod method = new MyMethod();
+		ManageMsg manageMsg = new ManageMsg();
+		return manageMsg.error(4, method.getIpAddr(request));
+	}
+
+	@RequestMapping("/json")
+	public @ResponseBody String json() throws MyException {
+		throw new MyException("发生错误");
+	}
+
+	// ----------------------处理并发编程--线程--------------------------
+	public void runnTest() {
+		Runnable task = () -> {
+			String threadName = Thread.currentThread().getName();
+			System.out.println("Hello " + threadName);
+		};
+
+		task.run();
+
+		Thread thread = new Thread(task);
+		thread.start();
+
+		System.out.println("Done!");
+	}
+
+	public void runnTesttwo() {
+		Runnable runnable = () -> {
+			try {
+				String name = Thread.currentThread().getName();
+				System.out.println("Foo " + name);
+				TimeUnit.SECONDS.sleep(1);
+				System.out.println("Bar " + name);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		};
+
+		Thread thread = new Thread(runnable);
+		thread.start();
+	}
+	// --------------------------------------------------
 	// @RequestMapping("/getPlotadv")
 	// public List<Plotadv> getPlotadv() {
 	// List<Plotadv> list = plotadvRepository.findAll();
@@ -203,8 +321,10 @@ public class ApiTestController {
 
 	@Scheduled(cron = "30 * * * * *")
 	public void cron() throws Exception {
-		String date = MyMethod.getDate();
-		System.out.println("测试执行定时任务(每一分钟的第30秒执行):" + date);
+		SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		// String date = MyMethod.getDate();
+		System.out.println("测试执行定时任务(每一分钟的第30秒执行):" + dateFormater.format(date));
 	}
 
 }

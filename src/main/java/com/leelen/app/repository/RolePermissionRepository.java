@@ -6,6 +6,8 @@
  */
 package com.leelen.app.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.leelen.entitys.RolePermission;
@@ -16,4 +18,5 @@ import com.leelen.entitys.RolePermission;
  */
 public interface RolePermissionRepository extends JpaRepository<RolePermission, Integer> {
 
+	List<RolePermission> findByRoleid(String roleid);
 }

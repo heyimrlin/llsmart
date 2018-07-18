@@ -118,4 +118,15 @@ public class PlotInfoServiceImpl implements PlotInfoService {
 		return plotInfoRepository.findAll();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.PlotInfoService#getPlotinfo(int)
+	 */
+	@Override
+	public PlotInfo getPlotinfo(String plotid) {
+		// TODO Auto-generated method stub
+		return plotInfoRepository.findByPlotid(plotid);
+	}
+
 }

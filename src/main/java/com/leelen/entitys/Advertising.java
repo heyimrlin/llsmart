@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "advertising", schema = "llsmart", catalog = "")
-public class Advertising {
+public class Advertising implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -343,6 +350,100 @@ public class Advertising {
 		this.audittime = audittime;
 		this.isshow = isshow;
 		this.plotid = plotid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((advcontent == null) ? 0 : advcontent.hashCode());
+		result = prime * result + ((advid == null) ? 0 : advid.hashCode());
+		result = prime * result + ((advimg == null) ? 0 : advimg.hashCode());
+		result = prime * result + ((advlink == null) ? 0 : advlink.hashCode());
+		result = prime * result + ((advtitle == null) ? 0 : advtitle.hashCode());
+		result = prime * result + ((advtype == null) ? 0 : advtype.hashCode());
+		result = prime * result + ((auditer == null) ? 0 : auditer.hashCode());
+		result = prime * result + auditstatus;
+		result = prime * result + ((audittime == null) ? 0 : audittime.hashCode());
+		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+		result = prime * result + id;
+		result = prime * result + isshow;
+		result = prime * result + ((plotid == null) ? 0 : plotid.hashCode());
+		result = prime * result + ((validity == null) ? 0 : validity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Advertising other = (Advertising) obj;
+		if (advcontent == null) {
+			if (other.advcontent != null)
+				return false;
+		} else if (!advcontent.equals(other.advcontent))
+			return false;
+		if (advid == null) {
+			if (other.advid != null)
+				return false;
+		} else if (!advid.equals(other.advid))
+			return false;
+		if (advimg == null) {
+			if (other.advimg != null)
+				return false;
+		} else if (!advimg.equals(other.advimg))
+			return false;
+		if (advlink == null) {
+			if (other.advlink != null)
+				return false;
+		} else if (!advlink.equals(other.advlink))
+			return false;
+		if (advtitle == null) {
+			if (other.advtitle != null)
+				return false;
+		} else if (!advtitle.equals(other.advtitle))
+			return false;
+		if (advtype == null) {
+			if (other.advtype != null)
+				return false;
+		} else if (!advtype.equals(other.advtype))
+			return false;
+		if (auditer == null) {
+			if (other.auditer != null)
+				return false;
+		} else if (!auditer.equals(other.auditer))
+			return false;
+		if (auditstatus != other.auditstatus)
+			return false;
+		if (audittime == null) {
+			if (other.audittime != null)
+				return false;
+		} else if (!audittime.equals(other.audittime))
+			return false;
+		if (creator == null) {
+			if (other.creator != null)
+				return false;
+		} else if (!creator.equals(other.creator))
+			return false;
+		if (id != other.id)
+			return false;
+		if (isshow != other.isshow)
+			return false;
+		if (plotid == null) {
+			if (other.plotid != null)
+				return false;
+		} else if (!plotid.equals(other.plotid))
+			return false;
+		if (validity == null) {
+			if (other.validity != null)
+				return false;
+		} else if (!validity.equals(other.validity))
+			return false;
+		return true;
 	}
 
 }

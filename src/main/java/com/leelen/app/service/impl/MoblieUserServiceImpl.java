@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSONObject;
@@ -25,6 +26,7 @@ import com.leelen.app.dao.MoblieUserDao;
 import com.leelen.app.repository.MoblieUserRepository;
 import com.leelen.app.repository.SysUserRepository;
 import com.leelen.app.service.MoblieUserService;
+import com.leelen.app.service.PlotInfoService;
 import com.leelen.app.service.SysUserService;
 import com.leelen.app.service.UserPlotService;
 import com.leelen.entitys.MoblieUser;
@@ -33,6 +35,7 @@ import com.leelen.entitys.RespEntity;
 import com.leelen.entitys.SysUser;
 import com.leelen.publicmethod.MyMethod;
 import com.leelen.utils.MD5Tools;
+import com.leelen.utils.Ramdata;
 
 /**
  * @author xiaoxl
@@ -61,21 +64,43 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 	@Autowired
 	MoblieUserRepository moblieUserRepository;
 
+	@Resource
+	PlotInfoService plotInfoService;
+
 	/*
-	 * (non-Javadoc)
+	 * (non-Javadoc) 移动端注册时，平台用户表同时保存数据
 	 * 
 	 * @see
 	 * com.leelen.app.service.MoblieUserService#save(com.leelen.entitys.MoblieUser)
 	 */
 	@Override
-	public RespEntity save(MoblieUser moblieUser) {
+	public RespEntity save(String tell, String password, String verification) {
 		// TODO Auto-generated method stub
 		// 判断是否已注册、平台是否配置了...
-		if (moblieUserDao.findUserByTell(moblieUser.getTell()) == null) {
+		MoblieUser moblieUser = new MoblieUser();
+		moblieUser.setTell(tell);
+		moblieUser.setPassword(password);
+		MoblieUser moblieUserv = moblieUserDao.findUserByTell(moblieUser.getTell());
+		if (moblieUserv == null) {
+			// 生成uid,保存用户数据
+			String uid = Ramdata.ramdaSw(7);
 
-			return new RespEntity(RespCode.SUCCESS, null);
+			return new RespEntity(RespCode.REGISTER_SUCCESS, null);
 		} else {
-			return new RespEntity(RespCode.TELL_REGISTER, null);
+			// 不为空，平台已配置
+			String uid = moblieUserv.getUid();
+			// 判断是否已注册
+			SysUser sysUser = sysUserService.checkUserInMoblie(moblieUser.getTell());
+			if (sysUser != null && sysUser.getMobilerg() == 0) {
+				return new RespEntity(RespCode.TELL_REGISTER, null);
+			} else {
+				// 根据uid更新用户数据
+				if (moblieUserDao.updateMoblieuser(password, dateFormater.format(date), uid) == 1) {
+					return new RespEntity(RespCode.REGISTER_SUCCESS, null);
+				} else {
+					return new RespEntity(RespCode.REGISTER_FAIL, null);
+				}
+			}
 		}
 	}
 
@@ -86,38 +111,37 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 	 * java.lang.String, java.lang.String, long, int)
 	 */
 	@Override
+	@Async
 	public RespEntity login(String tell, String password, String sign, long timestamp, int isplatform) {
 		// TODO Auto-generated method stub
 		// 判断是否已注册、平台是否配置了...
 		String StrSign = "/yz/app/login?tell=" + tell + "&password=" + password + "&timestamp=" + timestamp;
-		if (MyMethod.verdictSign(StrSign, sign)) {
-			long tl = new Date().getTime();
-			logger.info("系统时间:" + tl + "\t参数:" + timestamp);
-			if (tl - 3000 < timestamp && timestamp < tl + 10000) {
-				MoblieUser moblieUser = moblieUserDao.findUserByTell(tell);
-				if (moblieUser != null) {
-					SysUser sysUser = sysUserService.getUserStatus(tell);
-					String token = MyMethod.GetGUID();
-					if (sysUser.getUseable() == 0) {
-						updateToken(token, MyMethod.getDate(), tell);
-						JSONObject json = new JSONObject();
-						json.put("nickname", sysUser.getNickname());
-						json.put("token", token);
-						json.put("plot", userPlotService.getPlotByUid(moblieUser.getUid()));
-						return new RespEntity(RespCode.SUCCESS, json);
-					} else {
-						JSONObject json = new JSONObject();
-						json.put("token", MyMethod.GetGUID());
-						return new RespEntity(RespCode.PLATFORM_NO_USER, json);
-					}
-				} else {
-					return new RespEntity(RespCode.TELL_NOTREGISTER, null);
-				}
-			} else {
-				return new RespEntity(RespCode.INVALID_REQUEST, null);
-			}
-		} else {
+		if (!MyMethod.verdictSign(StrSign, sign)) {
 			return new RespEntity(RespCode.SIGN_ERROR, null);
+		}
+		long tl = new Date().getTime();
+		logger.info("系统时间:" + tl + "\t参数:" + timestamp);
+		if (!(tl - 3000 < timestamp && timestamp < tl + 10000)) {
+			return new RespEntity(RespCode.INVALID_REQUEST, null);
+		}
+		MoblieUser moblieUser = moblieUserDao.findUserByTell(tell);
+		if (moblieUser == null) {
+			return new RespEntity(RespCode.TELL_NOTREGISTER, null);
+		}
+		SysUser sysUser = sysUserService.getUserStatus(tell);
+		String token = MyMethod.GetGUID();
+		if (sysUser.getUseable() == 0) {
+			updateToken(token, MyMethod.getDate(), tell);
+			JSONObject json = new JSONObject();
+			json.put("nickname", sysUser.getNickname());
+			json.put("token", token);
+			json.put("plot", userPlotService.getPlotByUid(moblieUser.getUid()));
+			return new RespEntity(RespCode.SUCCESS, json);
+		} else {
+			updateToken(token, MyMethod.getDate(), tell);
+			JSONObject json = new JSONObject();
+			json.put("token", MyMethod.GetGUID());
+			return new RespEntity(RespCode.PLATFORM_NO_USER, json);
 		}
 	}
 
@@ -212,7 +236,7 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 	 * java.lang.String, java.lang.String)
 	 */
 	@Override
-	public RespEntity updateUser(String username, String tell, String uid) {
+	public RespEntity updateUser(String token, long timestamp, String sign, String nickname, String tell) {
 		// TODO Auto-generated method stub
 		// 业主修改成员信息
 		return null;
@@ -285,6 +309,63 @@ public class MoblieUserServiceImpl implements MoblieUserService {
 	public MoblieUser findByToken(String token) {
 		// TODO Auto-generated method stub
 		return moblieUserRepository.findByToken(token);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.MoblieUserService#addMember(java.lang.String,
+	 * long, java.lang.String, java.lang.String, java.lang.String, java.lang.String,
+	 * java.lang.String, java.lang.String)
+	 */
+	@Override
+	public RespEntity addMember(String token, long timestamp, String sign, String nickname, String tell, String plotid,
+			String buildingname, String room) {
+		// TODO Auto-generated method stub
+		// 判断该小区是否支持添加成员
+		if (plotInfoService.getPlotinfo(plotid).getIssupportadduser() != 0) {
+			return new RespEntity(RespCode.NOT_SUPPORTADDUSER, null);
+		}
+		MoblieUser moblieUser = moblieUserDao.findUserByToken(token);
+		// if() {
+		//
+		// }
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.MoblieUserService#modifyTell()
+	 */
+	@Override
+	public RespEntity modifyTell(String token, String tell, String code) {
+		// TODO Auto-generated method stub
+
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.leelen.app.service.MoblieUserService#modifyUsername()
+	 */
+	@Override
+	public RespEntity modifyUsername(String token, String username) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.leelen.app.service.MoblieUserService#platformishave(java.lang.String)
+	 */
+	@Override
+	public MoblieUser platformishave(String tell) {
+		// TODO Auto-generated method stub
+		return moblieUserRepository.findByTell(tell);
 	}
 
 }

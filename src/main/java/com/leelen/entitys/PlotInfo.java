@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "plotinfo", schema = "llsmart", catalog = "")
-public class PlotInfo {
+public class PlotInfo implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -326,6 +333,88 @@ public class PlotInfo {
 		this.plottime = plottime;
 		this.plotstatus = plotstatus;
 		this.issupportadduser = issupportadduser;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((buildingname == null) ? 0 : buildingname.hashCode());
+		result = prime * result + buildingtype;
+		result = prime * result + floornum;
+		result = prime * result + id;
+		result = prime * result + issupportadduser;
+		result = prime * result + ((plotcall == null) ? 0 : plotcall.hashCode());
+		result = prime * result + ((plotcreater == null) ? 0 : plotcreater.hashCode());
+		result = prime * result + ((plotid == null) ? 0 : plotid.hashCode());
+		result = prime * result + ((plotname == null) ? 0 : plotname.hashCode());
+		result = prime * result + ((plotofcity == null) ? 0 : plotofcity.hashCode());
+		result = prime * result + plotstatus;
+		result = prime * result + ((plottime == null) ? 0 : plottime.hashCode());
+		result = prime * result + ((room == null) ? 0 : room.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlotInfo other = (PlotInfo) obj;
+		if (buildingname == null) {
+			if (other.buildingname != null)
+				return false;
+		} else if (!buildingname.equals(other.buildingname))
+			return false;
+		if (buildingtype != other.buildingtype)
+			return false;
+		if (floornum != other.floornum)
+			return false;
+		if (id != other.id)
+			return false;
+		if (issupportadduser != other.issupportadduser)
+			return false;
+		if (plotcall == null) {
+			if (other.plotcall != null)
+				return false;
+		} else if (!plotcall.equals(other.plotcall))
+			return false;
+		if (plotcreater == null) {
+			if (other.plotcreater != null)
+				return false;
+		} else if (!plotcreater.equals(other.plotcreater))
+			return false;
+		if (plotid == null) {
+			if (other.plotid != null)
+				return false;
+		} else if (!plotid.equals(other.plotid))
+			return false;
+		if (plotname == null) {
+			if (other.plotname != null)
+				return false;
+		} else if (!plotname.equals(other.plotname))
+			return false;
+		if (plotofcity == null) {
+			if (other.plotofcity != null)
+				return false;
+		} else if (!plotofcity.equals(other.plotofcity))
+			return false;
+		if (plotstatus != other.plotstatus)
+			return false;
+		if (plottime == null) {
+			if (other.plottime != null)
+				return false;
+		} else if (!plottime.equals(other.plottime))
+			return false;
+		if (room == null) {
+			if (other.room != null)
+				return false;
+		} else if (!room.equals(other.room))
+			return false;
+		return true;
 	}
 
 }

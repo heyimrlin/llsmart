@@ -117,8 +117,8 @@ public class DruidDBConfig {
 		reg.addInitParameter("allow", ""); // 白名单
 
 		// 设置控制台管理账户
-		reg.addInitParameter("loginUsername", "xiaoxl");
-		reg.addInitParameter("loginPassword", "xiaoxl1015");
+		reg.addInitParameter("loginUsername", "leelen");
+		reg.addInitParameter("loginPassword", "93leelen");
 
 		// 是否可以重置数据
 		reg.addInitParameter("resetEnable", "false");

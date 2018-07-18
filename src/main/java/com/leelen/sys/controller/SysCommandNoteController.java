@@ -28,7 +28,7 @@ public class SysCommandNoteController {
 	@Resource
 	CommandNoteService commandNoteService;
 
-	@Log("平台获取APP版本信息")
+	@Log("口令生成记录")
 	@RequestMapping("/list")
 	public @ResponseBody List<CommandNote> getCommand() {
 		return commandNoteService.getCommandNote();

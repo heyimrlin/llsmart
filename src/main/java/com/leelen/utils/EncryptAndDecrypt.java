@@ -24,12 +24,12 @@ public class EncryptAndDecrypt {
 	// 编码方式
 	private final static String ENCODE = "UTF-8";
 	// 秘钥
-	private final static String defaultKey = "leelen";
+	private final static String defaultKey = "93leelen";
 	// 前缀
 	private final static String defaultPrefix = "SDITENCRYPT";
 
 	public static void main(String[] args) {
-		String mes = "测试数据000";
+		String mes = "测试数据";
 		String e = encrypt(mes);
 		System.out.println("加密后：" + e);
 		System.out.println("解密后：" + decrypt(e));

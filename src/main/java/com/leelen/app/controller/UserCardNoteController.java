@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -31,11 +32,30 @@ public class UserCardNoteController {
 	@Resource
 	UserCardNoteService userCardNoteService;
 
+	// @Log("用户卡记录")
+	// @RequestMapping(value = "/uploadCardNote", method = RequestMethod.GET,
+	// produces = {
+	// "application/json;charset=UTF-8" })
+	// public RespEntity uploadCardNote(UserCardNote userCardNote) {
+	// logger.info("数据:" + userCardNote.getUid() + "单元:" +
+	// userCardNote.getUnlockunit());
+	// return userCardNoteService.save(userCardNote);
+	// }
+
+	// 若指定consumes为application/json,那么服务器仅处理request
+	// Content-Type为"application/json"类型的请求
+	// 参考:https://blog.csdn.net/Liam1994/article/details/79035198
+	// produces指定响应类型为application/json的数据
+
+	// 接收json数组对象
+	// 参考资料:https://blog.csdn.net/u012129558/article/details/51768985
+
+	// https://bbs.csdn.net/topics/391881006?page=1
 	@Log("用户卡记录")
 	@RequestMapping(value = "/uploadCardNote", method = RequestMethod.GET, produces = {
 			"application/json;charset=UTF-8" }, consumes = { "application/json" })
-	public RespEntity uploadCardNote(UserCardNote userCardNote) {
-		logger.info("数据:" + userCardNote.getUid() + "单元:" + userCardNote.getUnlockunit());
+	public RespEntity uploadCardNote(@RequestBody UserCardNote[] userCardNote) {
+		logger.info("json数组数据:" + userCardNote);
 		return userCardNoteService.save(userCardNote);
 	}
 }

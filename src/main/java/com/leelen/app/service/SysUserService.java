@@ -19,7 +19,7 @@ public interface SysUserService {
 	void save(SysUser sysUser);
 
 	// 检查是否移动端已注册
-	boolean checkUserInMoblie(String tell);
+	SysUser checkUserInMoblie(String tell);
 
 	// 修改用户状态
 	RespEntity updataUserStatus(int useable, String tell);

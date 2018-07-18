@@ -20,6 +20,9 @@ import com.leelen.entitys.MoblieUser;
  */
 public interface MoblieUserRepository extends JpaRepository<MoblieUser, Integer> {
 
+	// 判断用户是否在平台已配置
+	MoblieUser findByTell(String tell);
+
 	// 根据token获取用户id
 	MoblieUser findByToken(String token);
 

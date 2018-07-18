@@ -8,6 +8,8 @@ package com.leelen.app.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.leelen.entitys.Administrator;
 import com.leelen.entitys.R;
 import com.leelen.entitys.RespEntity;
@@ -19,7 +21,7 @@ import com.leelen.entitys.RespEntity;
 public interface AdministratorService {
 
 	// 添加管理员
-	RespEntity save(Administrator administrator);
+	RespEntity save(HttpServletRequest request, Administrator administrator);
 
 	// 获取所有管理员
 	List<Administrator> getAllAdministrator();
@@ -44,6 +46,9 @@ public interface AdministratorService {
 
 	// 修改信息
 	R updateAdmin(Administrator administrator);
+
+	// 获取我管理的小区
+	RespEntity getMyPlot(String aid);
 
 	// ...
 

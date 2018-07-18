@@ -11,10 +11,14 @@ import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +31,7 @@ import com.leelen.utils.MD5Tools;
  */
 public class MyMethod {
 
-	Logger logger = LoggerFactory.getLogger(getClass());
+	static Logger logger = LoggerFactory.getLogger(MyMethod.class);
 
 	static SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	static SimpleDateFormat dateFormaterStr = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -54,9 +58,14 @@ public class MyMethod {
 		return UUID.randomUUID().toString().replace("-", "");
 	}
 
+	// 生成Token
+	public static String GetGUIDF() {
+		return UUID.randomUUID().toString();
+	}
+
 	// 生成时间格式为yyyyMMddHHmmss作为生成ID
-	public static String getDateStr() {
-		return dateFormaterStr.format(date);
+	public static String getDateStr(Date dat) {
+		return dateFormaterStr.format(dat);
 	}
 
 	// 生成时间格式为yyyyMMddHHmmss作为生成ID
@@ -141,7 +150,7 @@ public class MyMethod {
 		for (int j = 0; j < num; j++) {
 			flag.append(sources.charAt(rand.nextInt(9)) + "");
 		}
-		System.out.println(flag.toString());
+		logger.info(flag.toString());
 		return flag.toString();
 	}
 
@@ -179,16 +188,72 @@ public class MyMethod {
 				ipAddress = ipAddress.substring(0, ipAddress.indexOf(","));
 			}
 		}
-		// System.out.println(">>>ip:" + ipAddress);
+		logger.info(">>>ip:" + ipAddress);
 		return ipAddress;
 	}
 
+	/**
+	 * 根据名字获取cookie
+	 * 
+	 * @param request
+	 * @param name
+	 *            cookie名字
+	 * @return
+	 */
+	public Cookie getCookieByName(HttpServletRequest request, String name) {
+		Map<String, Cookie> cookieMap = ReadCookieMap(request);
+		if (cookieMap.containsKey(name)) {
+			Cookie cookie = (Cookie) cookieMap.get(name);
+			return cookie;
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * 将cookie封装到Map里面
+	 * 
+	 * @param request
+	 * @return
+	 */
+	private Map<String, Cookie> ReadCookieMap(HttpServletRequest request) {
+		Map<String, Cookie> cookieMap = new HashMap<String, Cookie>();
+		Cookie[] cookies = request.getCookies();
+		if (null != cookies) {
+			for (Cookie cookie : cookies) {
+				cookieMap.put(cookie.getName(), cookie);
+			}
+		}
+		return cookieMap;
+	}
+
+	// 添加cookie
+	public static void addCookie(HttpServletResponse response, String cookieName, Object cookieValue, int MaxAge) {
+		Cookie cookie = new Cookie(cookieName, cookieValue.toString().trim());
+		cookie.setMaxAge(MaxAge);// cookie时效性:单位-秒
+		cookie.setPath("/");
+		logger.info("添加的cookie名字为:" + cookieName);
+		response.addCookie(cookie);
+	}
+
+	// 根据name清除cookie的值
+	public static void cleanCookieByName(HttpServletResponse response, String cookieName) {
+		Cookie cookie = new Cookie(cookieName, null);
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+		logger.info("被删除的cookie名字为:" + cookieName);
+		response.addCookie(cookie);
+	}
+
 	public static void main(String[] args) {
+
+		System.out.println(GetGUID());
 		// HttpServletRequest request = null;
 		// getIpAddr(request);
-		long template = new Date().getTime();
-		System.out.println(strSign("/test", "?uid=001&password=e10adc3949ba59abbe56e057f20f883e", template));
-		System.out.println(GetGUID());
-		System.out.println(dateFormaterStr.format(date));
+		// long template = new Date().getTime();
+		// System.out.println(strSign("/test",
+		// "?uid=001&password=e10adc3949ba59abbe56e057f20f883e", template));
+		// System.out.println(GetGUID());
+		// System.out.println(dateFormaterStr.format(date));
 	}
 }

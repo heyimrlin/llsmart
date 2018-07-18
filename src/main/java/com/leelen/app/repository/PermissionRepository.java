@@ -6,6 +6,8 @@
  */
 package com.leelen.app.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.leelen.entitys.Permission;
@@ -16,4 +18,5 @@ import com.leelen.entitys.Permission;
  */
 public interface PermissionRepository extends JpaRepository<Permission, Integer> {
 
+	List<Permission> findByOpidIn(String[] opids);
 }

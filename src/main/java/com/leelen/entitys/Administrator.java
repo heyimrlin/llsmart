@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,7 +23,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "administrator", schema = "llsmart", catalog = "")
-public class Administrator {
+public class Administrator implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -309,6 +316,91 @@ public class Administrator {
 		this.lastlogintime = lastlogintime;
 		this.parentsaccount = parentsaccount;
 		this.roleid = roleid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((account == null) ? 0 : account.hashCode());
+		result = prime * result + ((aid == null) ? 0 : aid.hashCode());
+		result = prime * result + ((createtime == null) ? 0 : createtime.hashCode());
+		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+		result = prime * result + id;
+		result = prime * result + isuse;
+		result = prime * result + ((lastlogintime == null) ? 0 : lastlogintime.hashCode());
+		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result + ((parentsaccount == null) ? 0 : parentsaccount.hashCode());
+		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((roleid == null) ? 0 : roleid.hashCode());
+		result = prime * result + ((tell == null) ? 0 : tell.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Administrator other = (Administrator) obj;
+		if (account == null) {
+			if (other.account != null)
+				return false;
+		} else if (!account.equals(other.account))
+			return false;
+		if (aid == null) {
+			if (other.aid != null)
+				return false;
+		} else if (!aid.equals(other.aid))
+			return false;
+		if (createtime == null) {
+			if (other.createtime != null)
+				return false;
+		} else if (!createtime.equals(other.createtime))
+			return false;
+		if (creator == null) {
+			if (other.creator != null)
+				return false;
+		} else if (!creator.equals(other.creator))
+			return false;
+		if (id != other.id)
+			return false;
+		if (isuse != other.isuse)
+			return false;
+		if (lastlogintime == null) {
+			if (other.lastlogintime != null)
+				return false;
+		} else if (!lastlogintime.equals(other.lastlogintime))
+			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
+		if (parentsaccount == null) {
+			if (other.parentsaccount != null)
+				return false;
+		} else if (!parentsaccount.equals(other.parentsaccount))
+			return false;
+		if (password == null) {
+			if (other.password != null)
+				return false;
+		} else if (!password.equals(other.password))
+			return false;
+		if (roleid == null) {
+			if (other.roleid != null)
+				return false;
+		} else if (!roleid.equals(other.roleid))
+			return false;
+		if (tell == null) {
+			if (other.tell != null)
+				return false;
+		} else if (!tell.equals(other.tell))
+			return false;
+		return true;
 	}
 
 }

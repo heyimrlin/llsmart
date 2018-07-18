@@ -18,5 +18,7 @@ public interface UserCardNoteService {
 	// 保存进出记录
 	RespEntity save(UserCardNote userCardNote);
 
+	RespEntity save(UserCardNote[] userCardNote);
+
 	// ...
 }

@@ -31,5 +31,7 @@ public interface PlotInfoService {
 
 	List<PlotInfo> getPlotList();
 
+	PlotInfo getPlotinfo(String plotid);
+
 	// ...
 }

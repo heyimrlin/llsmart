@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "plotnotice", schema = "llsmart", catalog = "")
-public class PlotNotice {
+public class PlotNotice implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -255,6 +262,79 @@ public class PlotNotice {
 		this.plotid = plotid;
 		this.plotname = plotname;
 		this.creator = creator;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+		result = prime * result + id;
+		result = prime * result + isshow;
+		result = prime * result + ((modifytime == null) ? 0 : modifytime.hashCode());
+		result = prime * result + ((noticecontent == null) ? 0 : noticecontent.hashCode());
+		result = prime * result + ((noticeid == null) ? 0 : noticeid.hashCode());
+		result = prime * result + ((noticetitle == null) ? 0 : noticetitle.hashCode());
+		result = prime * result + ((plotid == null) ? 0 : plotid.hashCode());
+		result = prime * result + ((plotname == null) ? 0 : plotname.hashCode());
+		result = prime * result + ((validity == null) ? 0 : validity.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PlotNotice other = (PlotNotice) obj;
+		if (creator == null) {
+			if (other.creator != null)
+				return false;
+		} else if (!creator.equals(other.creator))
+			return false;
+		if (id != other.id)
+			return false;
+		if (isshow != other.isshow)
+			return false;
+		if (modifytime == null) {
+			if (other.modifytime != null)
+				return false;
+		} else if (!modifytime.equals(other.modifytime))
+			return false;
+		if (noticecontent == null) {
+			if (other.noticecontent != null)
+				return false;
+		} else if (!noticecontent.equals(other.noticecontent))
+			return false;
+		if (noticeid == null) {
+			if (other.noticeid != null)
+				return false;
+		} else if (!noticeid.equals(other.noticeid))
+			return false;
+		if (noticetitle == null) {
+			if (other.noticetitle != null)
+				return false;
+		} else if (!noticetitle.equals(other.noticetitle))
+			return false;
+		if (plotid == null) {
+			if (other.plotid != null)
+				return false;
+		} else if (!plotid.equals(other.plotid))
+			return false;
+		if (plotname == null) {
+			if (other.plotname != null)
+				return false;
+		} else if (!plotname.equals(other.plotname))
+			return false;
+		if (validity == null) {
+			if (other.validity != null)
+				return false;
+		} else if (!validity.equals(other.validity))
+			return false;
+		return true;
 	}
 
 }

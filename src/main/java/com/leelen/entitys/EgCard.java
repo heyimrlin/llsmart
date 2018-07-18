@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "egcard", schema = "llsmart", catalog = "")
-public class EgCard {
+public class EgCard implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -300,6 +307,79 @@ public class EgCard {
 		this.creator = creator;
 		this.cardholder = cardholder;
 		this.note = note;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cardholder == null) ? 0 : cardholder.hashCode());
+		result = prime * result + ((cardno == null) ? 0 : cardno.hashCode());
+		result = prime * result + ((createtime == null) ? 0 : createtime.hashCode());
+		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+		result = prime * result + egcardtype;
+		result = prime * result + id;
+		result = prime * result + isuse;
+		result = prime * result + isvalid;
+		result = prime * result + limitnum;
+		result = prime * result + logoutstatus;
+		result = prime * result + ((note == null) ? 0 : note.hashCode());
+		result = prime * result + ((validtime == null) ? 0 : validtime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EgCard other = (EgCard) obj;
+		if (cardholder == null) {
+			if (other.cardholder != null)
+				return false;
+		} else if (!cardholder.equals(other.cardholder))
+			return false;
+		if (cardno == null) {
+			if (other.cardno != null)
+				return false;
+		} else if (!cardno.equals(other.cardno))
+			return false;
+		if (createtime == null) {
+			if (other.createtime != null)
+				return false;
+		} else if (!createtime.equals(other.createtime))
+			return false;
+		if (creator == null) {
+			if (other.creator != null)
+				return false;
+		} else if (!creator.equals(other.creator))
+			return false;
+		if (egcardtype != other.egcardtype)
+			return false;
+		if (id != other.id)
+			return false;
+		if (isuse != other.isuse)
+			return false;
+		if (isvalid != other.isvalid)
+			return false;
+		if (limitnum != other.limitnum)
+			return false;
+		if (logoutstatus != other.logoutstatus)
+			return false;
+		if (note == null) {
+			if (other.note != null)
+				return false;
+		} else if (!note.equals(other.note))
+			return false;
+		if (validtime == null) {
+			if (other.validtime != null)
+				return false;
+		} else if (!validtime.equals(other.validtime))
+			return false;
+		return true;
 	}
 
 }

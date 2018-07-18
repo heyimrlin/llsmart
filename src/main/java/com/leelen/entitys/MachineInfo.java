@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "machineinfo", schema = "llsmart", catalog = "")
-public class MachineInfo {
+public class MachineInfo implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,6 +40,10 @@ public class MachineInfo {
 	@Basic
 	@Column(name = "devicename", nullable = false)
 	private String devicename;// 设备名称标识
+
+	@Basic
+	@Column(name = "devicecode", nullable = false)
+	private String devicecode;// 设备子码
 
 	@Basic
 	@Column(name = "machinetype", nullable = false)
@@ -64,7 +75,11 @@ public class MachineInfo {
 
 	@Basic
 	@Column(name = "plotid", nullable = false)
-	private String plotid;// 小区ID
+	private String plotid;// 小区IDunitid
+
+	@Basic
+	@Column(name = "unitid", nullable = false)
+	private String unitid;// 小区ID
 
 	/**
 	 * @return the id
@@ -109,6 +124,14 @@ public class MachineInfo {
 	 */
 	public void setDevicename(String devicename) {
 		this.devicename = devicename;
+	}
+
+	public String getDevicecode() {
+		return devicecode;
+	}
+
+	public void setDevicecode(String devicecode) {
+		this.devicecode = devicecode;
 	}
 
 	/**
@@ -231,6 +254,14 @@ public class MachineInfo {
 		this.plotid = plotid;
 	}
 
+	public String getUnitid() {
+		return unitid;
+	}
+
+	public void setUnitid(String unitid) {
+		this.unitid = unitid;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -238,10 +269,10 @@ public class MachineInfo {
 	 */
 	@Override
 	public String toString() {
-		return "MachineInfo [id=" + id + ", deviceid=" + deviceid + ", devicename=" + devicename + ", machinetype="
-				+ machinetype + ", devicesite=" + devicesite + ", devicestatus=" + devicestatus + ", isactivate="
-				+ isactivate + ", activationtime=" + activationtime + ", createtime=" + createtime + ", devicenote="
-				+ devicenote + ", plotid=" + plotid + "]";
+		return "MachineInfo [id=" + id + ", deviceid=" + deviceid + ", devicename=" + devicename + ", devicecode="
+				+ devicecode + ", machinetype=" + machinetype + ", devicesite=" + devicesite + ", devicestatus="
+				+ devicestatus + ", isactivate=" + isactivate + ", activationtime=" + activationtime + ", createtime="
+				+ createtime + ", devicenote=" + devicenote + ", plotid=" + plotid + ",unitid=" + unitid + "]";
 	}
 
 	/**
@@ -265,13 +296,14 @@ public class MachineInfo {
 	 * @param devicenote
 	 * @param plotid
 	 */
-	public MachineInfo(int id, String deviceid, String devicename, String machinetype, String devicesite,
-			int devicestatus, int isactivate, String activationtime, String createtime, String devicenote,
-			String plotid) {
+	public MachineInfo(int id, String deviceid, String devicename, String devicecode, String machinetype,
+			String devicesite, int devicestatus, int isactivate, String activationtime, String createtime,
+			String devicenote, String plotid, String unitid) {
 		super();
 		this.id = id;
 		this.deviceid = deviceid;
 		this.devicename = devicename;
+		this.devicecode = devicecode;
 		this.machinetype = machinetype;
 		this.devicesite = devicesite;
 		this.devicestatus = devicestatus;
@@ -280,6 +312,95 @@ public class MachineInfo {
 		this.createtime = createtime;
 		this.devicenote = devicenote;
 		this.plotid = plotid;
+		this.unitid = unitid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activationtime == null) ? 0 : activationtime.hashCode());
+		result = prime * result + ((createtime == null) ? 0 : createtime.hashCode());
+		result = prime * result + ((devicecode == null) ? 0 : devicecode.hashCode());
+		result = prime * result + ((deviceid == null) ? 0 : deviceid.hashCode());
+		result = prime * result + ((devicename == null) ? 0 : devicename.hashCode());
+		result = prime * result + ((devicenote == null) ? 0 : devicenote.hashCode());
+		result = prime * result + ((devicesite == null) ? 0 : devicesite.hashCode());
+		result = prime * result + devicestatus;
+		result = prime * result + id;
+		result = prime * result + isactivate;
+		result = prime * result + ((machinetype == null) ? 0 : machinetype.hashCode());
+		result = prime * result + ((plotid == null) ? 0 : plotid.hashCode());
+		result = prime * result + ((unitid == null) ? 0 : unitid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		MachineInfo other = (MachineInfo) obj;
+		if (activationtime == null) {
+			if (other.activationtime != null)
+				return false;
+		} else if (!activationtime.equals(other.activationtime))
+			return false;
+		if (createtime == null) {
+			if (other.createtime != null)
+				return false;
+		} else if (!createtime.equals(other.createtime))
+			return false;
+		if (devicecode == null) {
+			if (other.devicecode != null)
+				return false;
+		} else if (!devicecode.equals(other.devicecode))
+			return false;
+		if (deviceid == null) {
+			if (other.deviceid != null)
+				return false;
+		} else if (!deviceid.equals(other.deviceid))
+			return false;
+		if (devicename == null) {
+			if (other.devicename != null)
+				return false;
+		} else if (!devicename.equals(other.devicename))
+			return false;
+		if (devicenote == null) {
+			if (other.devicenote != null)
+				return false;
+		} else if (!devicenote.equals(other.devicenote))
+			return false;
+		if (devicesite == null) {
+			if (other.devicesite != null)
+				return false;
+		} else if (!devicesite.equals(other.devicesite))
+			return false;
+		if (devicestatus != other.devicestatus)
+			return false;
+		if (id != other.id)
+			return false;
+		if (isactivate != other.isactivate)
+			return false;
+		if (machinetype == null) {
+			if (other.machinetype != null)
+				return false;
+		} else if (!machinetype.equals(other.machinetype))
+			return false;
+		if (plotid == null) {
+			if (other.plotid != null)
+				return false;
+		} else if (!plotid.equals(other.plotid))
+			return false;
+		if (unitid == null) {
+			if (other.unitid != null)
+				return false;
+		} else if (!unitid.equals(other.unitid))
+			return false;
+		return true;
 	}
 
 }

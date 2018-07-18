@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "role", schema = "llsmart", catalog = "")
-public class Role {
+public class Role implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -128,6 +135,46 @@ public class Role {
 		this.roleid = roleid;
 		this.rolename = rolename;
 		this.cname = cname;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cname == null) ? 0 : cname.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((roleid == null) ? 0 : roleid.hashCode());
+		result = prime * result + ((rolename == null) ? 0 : rolename.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Role other = (Role) obj;
+		if (cname == null) {
+			if (other.cname != null)
+				return false;
+		} else if (!cname.equals(other.cname))
+			return false;
+		if (id != other.id)
+			return false;
+		if (roleid == null) {
+			if (other.roleid != null)
+				return false;
+		} else if (!roleid.equals(other.roleid))
+			return false;
+		if (rolename == null) {
+			if (other.rolename != null)
+				return false;
+		} else if (!rolename.equals(other.rolename))
+			return false;
+		return true;
 	}
 
 }

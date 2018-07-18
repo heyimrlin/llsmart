@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,7 +24,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "appv", schema = "llsmart", catalog = "")
-public class Appv {
+public class Appv implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -154,7 +161,6 @@ public class Appv {
 	 * 
 	 */
 	public Appv() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
 
@@ -167,13 +173,64 @@ public class Appv {
 	 * @param uptime
 	 */
 	public Appv(int id, String appname, String appvcode, String appnote, String apkurl, String uptime) {
-		super();
 		this.id = id;
 		this.appname = appname;
 		this.appvcode = appvcode;
 		this.appnote = appnote;
 		this.apkurl = apkurl;
 		this.uptime = uptime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((apkurl == null) ? 0 : apkurl.hashCode());
+		result = prime * result + ((appname == null) ? 0 : appname.hashCode());
+		result = prime * result + ((appnote == null) ? 0 : appnote.hashCode());
+		result = prime * result + ((appvcode == null) ? 0 : appvcode.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((uptime == null) ? 0 : uptime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Appv other = (Appv) obj;
+		if (apkurl == null) {
+			if (other.apkurl != null)
+				return false;
+		} else if (!apkurl.equals(other.apkurl))
+			return false;
+		if (appname == null) {
+			if (other.appname != null)
+				return false;
+		} else if (!appname.equals(other.appname))
+			return false;
+		if (appnote == null) {
+			if (other.appnote != null)
+				return false;
+		} else if (!appnote.equals(other.appnote))
+			return false;
+		if (appvcode == null) {
+			if (other.appvcode != null)
+				return false;
+		} else if (!appvcode.equals(other.appvcode))
+			return false;
+		if (id != other.id)
+			return false;
+		if (uptime == null) {
+			if (other.uptime != null)
+				return false;
+		} else if (!uptime.equals(other.uptime))
+			return false;
+		return true;
 	}
 
 }

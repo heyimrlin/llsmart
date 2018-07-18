@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "usercardnote", schema = "llsmart", catalog = "")
-public class UserCardNote {
+public class UserCardNote implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -257,6 +264,92 @@ public class UserCardNote {
 		this.inouttype = inouttype;
 		this.uploader = uploader;
 		this.uploadtime = uploadtime;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((egid == null) ? 0 : egid.hashCode());
+		result = prime * result + id;
+		result = prime * result + inouttype;
+		result = prime * result + isok;
+		result = prime * result + ((slotcardtime == null) ? 0 : slotcardtime.hashCode());
+		result = prime * result + slotcardtype;
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		result = prime * result + ((unlockunit == null) ? 0 : unlockunit.hashCode());
+		result = prime * result + ((uploader == null) ? 0 : uploader.hashCode());
+		result = prime * result + ((uploadtime == null) ? 0 : uploadtime.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		UserCardNote other = (UserCardNote) obj;
+		if (egid == null) {
+			if (other.egid != null)
+				return false;
+		} else if (!egid.equals(other.egid))
+			return false;
+		if (id != other.id)
+			return false;
+		if (inouttype != other.inouttype)
+			return false;
+		if (isok != other.isok)
+			return false;
+		if (slotcardtime == null) {
+			if (other.slotcardtime != null)
+				return false;
+		} else if (!slotcardtime.equals(other.slotcardtime))
+			return false;
+		if (slotcardtype != other.slotcardtype)
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		if (unlockunit == null) {
+			if (other.unlockunit != null)
+				return false;
+		} else if (!unlockunit.equals(other.unlockunit))
+			return false;
+		if (uploader == null) {
+			if (other.uploader != null)
+				return false;
+		} else if (!uploader.equals(other.uploader))
+			return false;
+		if (uploadtime == null) {
+			if (other.uploadtime != null)
+				return false;
+		} else if (!uploadtime.equals(other.uploadtime))
+			return false;
+		return true;
+	}
+
+	/**
+	 * <p>
+	 * Title: clone
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @return
+	 * @throws CloneNotSupportedException
+	 * @see java.lang.Object#clone()
+	 */
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return (UserCardNote) super.clone();
 	}
 
 }

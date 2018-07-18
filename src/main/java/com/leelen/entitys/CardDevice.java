@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,7 +22,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "carddevice", schema = "llsmart", catalog = "")
-public class CardDevice {
+public class CardDevice implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -107,6 +114,40 @@ public class CardDevice {
 		this.id = id;
 		this.cardno = cardno;
 		this.deviceid = deviceid;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cardno == null) ? 0 : cardno.hashCode());
+		result = prime * result + ((deviceid == null) ? 0 : deviceid.hashCode());
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CardDevice other = (CardDevice) obj;
+		if (cardno == null) {
+			if (other.cardno != null)
+				return false;
+		} else if (!cardno.equals(other.cardno))
+			return false;
+		if (deviceid == null) {
+			if (other.deviceid != null)
+				return false;
+		} else if (!deviceid.equals(other.deviceid))
+			return false;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

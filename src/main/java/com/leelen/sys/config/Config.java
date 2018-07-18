@@ -128,6 +128,7 @@ public final class Config {
 	public static Map<String, String> Session_Files = new HashMap<String, String>();
 
 	public static String GetGUID() {
+
 		return UUID.randomUUID().toString().replace("-", "");
 	}
 

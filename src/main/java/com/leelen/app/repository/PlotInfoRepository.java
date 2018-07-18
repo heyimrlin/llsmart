@@ -27,6 +27,9 @@ public interface PlotInfoRepository extends JpaRepository<PlotInfo, Integer> {
 	// @Query("select p from plotinfo p where p.plotid = ?1")
 	List<PlotInfo> findByPlotstatusAndPlotidIn(int plotstatus, Object[] objects);
 
+	// 查询小区是否支持添加成员
+	PlotInfo findByPlotid(String plotid);
+
 	// ...
 
 }

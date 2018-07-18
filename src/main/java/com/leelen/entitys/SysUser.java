@@ -6,6 +6,8 @@
  */
 package com.leelen.entitys;
 
+import java.io.Serializable;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +21,12 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "sysuser", schema = "llsmart", catalog = "")
-public class SysUser {
+public class SysUser implements Serializable {
+
+	/**
+	 * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么)
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -248,6 +255,76 @@ public class SysUser {
 		this.creator = creator;
 		this.addtime = addtime;
 		this.familyhost = familyhost;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((addtime == null) ? 0 : addtime.hashCode());
+		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
+		result = prime * result + ((familyhost == null) ? 0 : familyhost.hashCode());
+		result = prime * result + ((houserole == null) ? 0 : houserole.hashCode());
+		result = prime * result + id;
+		result = prime * result + mobilerg;
+		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+		result = prime * result + ((tell == null) ? 0 : tell.hashCode());
+		result = prime * result + ((uid == null) ? 0 : uid.hashCode());
+		result = prime * result + useable;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SysUser other = (SysUser) obj;
+		if (addtime == null) {
+			if (other.addtime != null)
+				return false;
+		} else if (!addtime.equals(other.addtime))
+			return false;
+		if (creator == null) {
+			if (other.creator != null)
+				return false;
+		} else if (!creator.equals(other.creator))
+			return false;
+		if (familyhost == null) {
+			if (other.familyhost != null)
+				return false;
+		} else if (!familyhost.equals(other.familyhost))
+			return false;
+		if (houserole == null) {
+			if (other.houserole != null)
+				return false;
+		} else if (!houserole.equals(other.houserole))
+			return false;
+		if (id != other.id)
+			return false;
+		if (mobilerg != other.mobilerg)
+			return false;
+		if (nickname == null) {
+			if (other.nickname != null)
+				return false;
+		} else if (!nickname.equals(other.nickname))
+			return false;
+		if (tell == null) {
+			if (other.tell != null)
+				return false;
+		} else if (!tell.equals(other.tell))
+			return false;
+		if (uid == null) {
+			if (other.uid != null)
+				return false;
+		} else if (!uid.equals(other.uid))
+			return false;
+		if (useable != other.useable)
+			return false;
+		return true;
 	}
 
 }

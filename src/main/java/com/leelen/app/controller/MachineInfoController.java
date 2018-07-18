@@ -20,7 +20,7 @@ import com.leelen.my.mycontroller.LeelenRestController;
 /**
  * @author xiaoxl by male
  * @time 2018年5月21日下午2:01:51
- * @class MachineInfoController.java
+ * @class MachineInfoController.java 设备新增(设备号、设备子码、创建时间)
  */
 @LeelenRestController(msg = "设备")
 @RequestMapping("/app/plotMachine")

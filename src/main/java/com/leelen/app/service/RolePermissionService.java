@@ -6,8 +6,6 @@
  */
 package com.leelen.app.service;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 /**
  * @author xiaoxl 角色权限表
  *
@@ -15,10 +13,10 @@ import com.mysql.fabric.xmlrpc.base.Array;
 public interface RolePermissionService {
 
 	// 根据角色id获取对应权限
-	Array[] getPermissionByRole();
+	String[] getPermissionByRole(String roleid);
 
 	// 根据权限判断对应角色id
-	boolean getRoleByPermission();
+	boolean getRoleByPermission(String opid);
 
 	// ...
 }

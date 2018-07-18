@@ -36,9 +36,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.leelen.app.service.MoblieUserService;
-import com.leelen.entity.Leelen;
 import com.leelen.entity.Msg;
 import com.leelen.entitys.Administrator;
+import com.leelen.entitys.Leelen;
 import com.leelen.entitys.R;
 import com.leelen.utils.CurrentUserUtils;
 
@@ -172,8 +172,11 @@ public class TestController {
 		String filename;
 		try {
 			// 上传目录地址
-			String uploadDir = request.getSession().getServletContext().getRealPath("/") + "upload/";
-			System.out.println("uploadDir:" + uploadDir);
+			String uploadDir = request.getSession().getServletContext().getRealPath("/") + "/upload/";// 获取工程的根路径，这个方法比较好用，可以直接在servlet和jsp中使用
+			System.out.println("uploadDir:" + uploadDir + ">>>>>>>>>>>>>>:" + request.getServletPath());
+			this.getClass().getClassLoader().getResource("").getPath();// 获取工程classes
+																		// 下的路径，这个方法可以在任意jsp，servlet，java文件中使用，因为不管是jsp，servlet其实都是java程序，都是一个
+																		// class。所以它应该是一个通用的方法。
 			// 如果目录不存在,自动创建文件夹
 			File dir = new File(uploadDir);
 			if (!dir.exists()) {

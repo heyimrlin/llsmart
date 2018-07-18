@@ -37,13 +37,27 @@ public class MoblieUserController {
 	@Resource
 	MoblieUserService moblieUserService;
 
+	// 用户注册
+	@Log("用户注册")
+	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	public RespEntity register(HttpServletRequest request, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestHeader(value = "sign") String sign, @RequestParam(value = "tell") String tell,
+			@RequestParam(value = "password") String password,
+			@RequestParam(value = "verification") String verification) {
+		// 先判断平台是否有配置
+
+		return moblieUserService.save(tell, password, verification);
+	}
+
 	@Log("用户登录")
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = {
 			"application/json;charset=UTF-8" }, consumes = { "application/json" })
-	public RespEntity login(HttpServletRequest request, @RequestParam(value = "tell") String tell,
+	public RespEntity login(HttpServletRequest request, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestHeader(value = "sign") String sign, @RequestParam(value = "tell") String tell,
 			@RequestParam(value = "password") String password) {
-		String sign = request.getParameter("sign");
-		long timestamp = Long.parseLong(request.getParameter("timestamp"));
+		// String sign = request.getParameter("sign");
+		// long timestamp = Long.parseLong(request.getParameter("timestamp"));
 		logger.info(tell + password + sign);
 		logger.info("业主端app登录");
 		return moblieUserService.login(tell, password, sign, timestamp, 0);
@@ -53,6 +67,40 @@ public class MoblieUserController {
 	@RequestMapping(value = "/getMember", method = RequestMethod.POST, produces = {
 			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	public RespEntity getMember(HttpServletRequest request, @RequestHeader(value = "token") String token,
+			@RequestHeader(value = "sign") String sign) {
+		long timestamp = Long.parseLong(request.getParameter("timestamp"));
+		return moblieUserService.getMember(token, timestamp, sign);
+	}
+
+	// 添加成员
+	@Log("添加成员")
+	@RequestMapping(value = "/addMember", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	public RespEntity addMember(HttpServletRequest request, @RequestHeader(value = "token") String token,
+			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestParam(value = "nickname") String nickname, @RequestParam(value = "tell") String tell,
+			@RequestParam(value = "plotid") String plotid, @RequestParam(value = "buildingname") String buildingname,
+			@RequestParam(value = "room") String room) {
+		// long timestamp = Long.parseLong(request.getParameter("timestamp"));
+		return moblieUserService.addMember(token, timestamp, sign, nickname, tell, plotid, buildingname, room);
+	}
+
+	// 修改成员信息
+	@Log("修改成员信息")
+	@RequestMapping(value = "/modifyMember", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	public RespEntity modifyMember(HttpServletRequest request, @RequestHeader(value = "token") String token,
+			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestParam(value = "nickname") String nickname, @RequestParam(value = "tell") String tell) {
+		// long timestamp = Long.parseLong(request.getParameter("timestamp"));
+		return moblieUserService.updateUser(token, timestamp, sign, nickname, tell);
+	}
+
+	// 删除成员信息
+	@Log("删除成员信息")
+	@RequestMapping(value = "/deleteMember", method = RequestMethod.POST, produces = {
+			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	public RespEntity deleteMember(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
 		return moblieUserService.getMember(token, timestamp, sign);

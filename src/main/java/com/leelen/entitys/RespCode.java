@@ -39,7 +39,25 @@ public enum RespCode {
 	, TELL_NOTREGISTER(4205, "用户名或密码错误")
 	, MODIFY_ERROR(4206, "修改失败 ")
 	, MODIFY_SUCCESS(0, "修改成功 ")
-	, PLATFORM_NO_USER(4207, "平台未配置该用户 ");
+	, REGISTER_SUCCESS(0, "注册成功 ")
+	, DATABASEBACK_SUCCESS(0,"数据备份成功")
+	, DATABASEBACK_FAIL(4214,"数据备份失败")
+	, DATA_EXPORT_SUCCESS(0,"数据导出成功")
+	, DATA_EXPORT_FAIL(4215,"数据导出失败")
+	, DATA_IMPORT_SUCCESS(0,"数据导入成功")
+	, DATA_IMPORT_FAIL(4216,"数据导入失败")
+	, REGISTER_FAIL(4217, "注册失败 ")
+	, SMS_SEND_SUCCESS(0, "获取成功")
+	, PLATFORM_NO_USER(4207, "平台未配置该用户 ")
+	, SAVE_SUCCESS(0, "保存成功")
+	, SAVE_FAIL(4218, "保存失败 ")
+	, NOT_SUPPORTADDUSER(4208, "该小区不支持添加成员 ")
+	, SMS_SEND_FAIL(4209, "获取失败 ")
+	, SYS_KEY_ERROR(4210, "平台秘钥错误 ")
+	, VERIFICATION_CODE(4211, "验证码错误 ")
+	, ILLEGALITY_REQUEST(4212, "非法请求")
+	, FORBID_LOGIN(4213, "禁止登录")
+	,ERROR(4214,"错误");
 
 	private int code;
 	private String msg;
