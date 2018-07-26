@@ -16,7 +16,7 @@ import com.leelen.entitys.SysUser;
 public interface SysUserService {
 
 	// 配置用户
-	void save(SysUser sysUser);
+	void save(String uid, int i, int j);
 
 	// 检查是否移动端已注册
 	SysUser checkUserInMoblie(String tell);

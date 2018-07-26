@@ -82,7 +82,6 @@ public class ManagerPolt implements Serializable {
 	/**
 	 * @return the plotid
 	 */
-	@JsonIgnore
 	public String getPlotid() {
 		return plotid;
 	}

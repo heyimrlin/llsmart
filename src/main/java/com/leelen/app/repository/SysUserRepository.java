@@ -32,6 +32,9 @@ public interface SysUserRepository extends JpaRepository<SysUser, Integer> {
 	// 遵循jpa规则,获取用户信息
 	SysUser findByTell(String tell);
 
+	// 根据uid获取用户信息
+	SysUser findByUid(String uid);
+
 	// 获取成员
 	List<SysUser> findByFamilyhost(String familyhost);
 

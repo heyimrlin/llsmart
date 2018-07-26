@@ -8,16 +8,20 @@ package com.leelen.app.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.leelen.app.repository.AdvertisingRepository;
 import com.leelen.app.service.AdvertisingService;
 import com.leelen.entitys.Advertising;
 import com.leelen.entitys.RespCode;
 import com.leelen.entitys.RespEntity;
+import com.leelen.publicmethod.MyMethod;
 
 /**
  * @author xiaoxl
@@ -84,8 +88,8 @@ public class AdvertisingServiceImpl implements AdvertisingService {
 	public RespEntity getAllAdvertisingByAdvtypeAndAuditstatusAndIsshow(String advtype, int auditstatus, int isshow,
 			String plotid, String token, String sign) {
 		// TODO Auto-generated method stub advtype 广告类型，0表示平台广告 1表示小区广告
-		List<Advertising> advertisings = advertisingRepository.findByAdvtypeAndAuditstatusAndIsshow(advtype,
-				auditstatus, isshow);
+		List<Advertising> advertisings = advertisingRepository.findByAdvtypeAndAuditstatusAndIsshowAndPlotid(advtype,
+				auditstatus, isshow, plotid);
 		return new RespEntity(RespCode.SUCCESS, advertisings);
 	}
 
@@ -98,6 +102,52 @@ public class AdvertisingServiceImpl implements AdvertisingService {
 	public List<Advertising> getAllAdv() {
 		// TODO Auto-generated method stub
 		return advertisingRepository.findAll();
+	}
+
+	/**
+	 * <p>
+	 * Title: getAllAdvertisingByAdvtypeAndAuditstatusAndIsshowImg
+	 * </p>
+	 * <p>
+	 * Description:
+	 * </p>
+	 * 
+	 * @param advtype
+	 * @param auditstatus
+	 * @param isshow
+	 * @param plotid
+	 * @param token
+	 * @param sign
+	 * @return
+	 * @see com.leelen.app.service.AdvertisingService#getAllAdvertisingByAdvtypeAndAuditstatusAndIsshowImg(java.lang.String,
+	 *      int, int, java.lang.String, java.lang.String, java.lang.String)
+	 */
+
+	@Override
+	public RespEntity getAllAdvertisingByAdvtypeAndAuditstatusAndIsshowImg(String advtype, int auditstatus, int isshow,
+			String plotid, String token, String sign, long timestamp) {
+		// TODO Auto-generated method stub
+
+		if (!MyMethod.checkTimestamp(timestamp, System.currentTimeMillis())) {
+			return new RespEntity(RespCode.INVALID_REQUEST, null);
+		}
+
+		String StrSign = "/app/adv/getImg?token=" + token + "&timestamp=" + timestamp;
+		if (!MyMethod.verdictSign(StrSign, sign)) {
+			return new RespEntity(RespCode.SIGN_ERROR, null);
+		}
+
+		List<Advertising> advertisings = advertisingRepository.findByAdvtypeAndAuditstatusAndIsshowAndPlotid(advtype,
+				auditstatus, isshow, plotid);
+		Map<String, Object> map = new HashMap<String, Object>();
+		JSONArray jsonArray = new JSONArray();
+		for (int i = 0; i < advertisings.size(); i++) {
+			map.put("advid", advertisings.get(i).getAdvid());
+			map.put("advimg", advertisings.get(i).getAdvimg());
+			map.put("advlink", advertisings.get(i).getAdvlink());
+			jsonArray.add(i, map);
+		}
+		return new RespEntity(RespCode.SUCCESS, jsonArray);
 	}
 
 }

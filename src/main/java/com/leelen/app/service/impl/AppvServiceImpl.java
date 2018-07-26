@@ -38,9 +38,9 @@ public class AppvServiceImpl implements AppvService {
 	 * @see com.leelen.app.service.AppvService#getAppV()
 	 */
 	@Override
-	public RespEntity getAppV(int id) {
+	public RespEntity getAppV(String appid) {
 		// TODO Auto-generated method stub
-		Appv appv = appvRepository.findById(id);
+		Appv appv = appvRepository.findByAppid(appid);
 		return new RespEntity(RespCode.SUCCESS, appv);
 	}
 

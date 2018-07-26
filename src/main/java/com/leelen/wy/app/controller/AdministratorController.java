@@ -21,6 +21,7 @@ import com.leelen.entitys.RespCode;
 import com.leelen.entitys.RespEntity;
 import com.leelen.my.mycontroller.LeelenRestController;
 import com.leelen.publicmethod.MyMethod;
+import com.leelen.utils.ClientOsInfo;
 import com.leelen.utils.MD5Tools;
 
 /**
@@ -70,8 +71,7 @@ public class AdministratorController {
 
 	// 重置密码
 	@Log("重置密码")
-	@RequestMapping(value = "/resetPwd", produces = { "application/json;charset=UTF-8" }, consumes = {
-			"application/json" })
+	@RequestMapping(value = "/resetPwd", produces = { "application/json;charset=UTF-8" })
 	public RespEntity resetPwd(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -81,8 +81,7 @@ public class AdministratorController {
 
 	// 修改手机号
 	@Log("更改手机号")
-	@RequestMapping(value = "/modifyphone", produces = { "application/json;charset=UTF-8" }, consumes = {
-			"application/json" })
+	@RequestMapping(value = "/modifyphone", produces = { "application/json;charset=UTF-8" })
 	public RespEntity modifyPhone(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "tell") String tell) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
@@ -92,11 +91,13 @@ public class AdministratorController {
 
 	// 我管理的小区
 	@Log("我管理的小区")
-	@RequestMapping(value = "/myPolts", produces = { "application/json;charset=UTF-8" }, consumes = {
-			"application/json" })
+	@RequestMapping(value = "/myPolts", produces = { "application/json;charset=UTF-8" })
 	public RespEntity myPolts(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp) {
-		return administratorService.getMyPlot(token);
+		if (!ClientOsInfo.JudgeIsMoblie(request)) {
+			return new RespEntity(RespCode.ILLEGALITY_REQUEST, null);
+		}
+		return administratorService.getMyPlot(token, sign, timestamp);
 	}
 
 	@Log("权限数组")
@@ -104,5 +105,7 @@ public class AdministratorController {
 	public RespEntity getAppmenus(@RequestParam(value = "roleid") String roleid) {
 		return new RespEntity(RespCode.SUCCESS, appmenusService.getAppmenusByRoleid(roleid));
 	}
+
+	//
 
 }

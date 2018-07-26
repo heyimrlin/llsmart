@@ -8,7 +8,6 @@ package com.leelen.entitys;
 
 import java.io.Serializable;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,23 +34,21 @@ public class Appv implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;// 自增长ID
 
-	@Basic
+	@Column(name = "appid", nullable = false)
+	private String appid;// app名称
+
 	@Column(name = "appname", nullable = false)
 	private String appname;// app名称
 
-	@Basic
 	@Column(name = "appvcode", nullable = false)
 	private String appvcode;// app版本号
 
-	@Basic
 	@Column(name = "appnote", nullable = false)
 	private String appnote;// app说明
 
-	@Basic
 	@Column(name = "apkurl", nullable = false)
 	private String apkurl;// app下载地址
 
-	@Basic
 	@Column(name = "uptime", nullable = false)
 	private String uptime;// app更新时间
 
@@ -69,6 +66,14 @@ public class Appv implements Serializable {
 	 */
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getAppid() {
+		return appid;
+	}
+
+	public void setAppid(String appid) {
+		this.appid = appid;
 	}
 
 	/**
@@ -153,8 +158,8 @@ public class Appv implements Serializable {
 	 */
 	@Override
 	public String toString() {
-		return "Appv [id=" + id + ", appname=" + appname + ", appvcode=" + appvcode + ", appnote=" + appnote
-				+ ", apkurl=" + apkurl + ", uptime=" + uptime + "]";
+		return "Appv [id=" + id + ", appid=" + appid + ", appname=" + appname + ", appvcode=" + appvcode + ", appnote="
+				+ appnote + ", apkurl=" + apkurl + ", uptime=" + uptime + "]";
 	}
 
 	/**
@@ -172,8 +177,9 @@ public class Appv implements Serializable {
 	 * @param apkurl
 	 * @param uptime
 	 */
-	public Appv(int id, String appname, String appvcode, String appnote, String apkurl, String uptime) {
+	public Appv(int id, String appid, String appname, String appvcode, String appnote, String apkurl, String uptime) {
 		this.id = id;
+		this.appid = appid;
 		this.appname = appname;
 		this.appvcode = appvcode;
 		this.appnote = appnote;
@@ -186,6 +192,7 @@ public class Appv implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((apkurl == null) ? 0 : apkurl.hashCode());
+		result = prime * result + ((appid == null) ? 0 : appid.hashCode());
 		result = prime * result + ((appname == null) ? 0 : appname.hashCode());
 		result = prime * result + ((appnote == null) ? 0 : appnote.hashCode());
 		result = prime * result + ((appvcode == null) ? 0 : appvcode.hashCode());
@@ -207,6 +214,11 @@ public class Appv implements Serializable {
 			if (other.apkurl != null)
 				return false;
 		} else if (!apkurl.equals(other.apkurl))
+			return false;
+		if (appid == null) {
+			if (other.appid != null)
+				return false;
+		} else if (!appid.equals(other.appid))
 			return false;
 		if (appname == null) {
 			if (other.appname != null)

@@ -17,5 +17,5 @@ import com.leelen.entitys.Appv;
 public interface AppvRepository extends JpaRepository<Appv, Integer> {
 
 	//
-	Appv findById(int id);
+	Appv findByAppid(String appid);
 }

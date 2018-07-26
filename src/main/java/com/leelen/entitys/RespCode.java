@@ -39,6 +39,7 @@ public enum RespCode {
 	, TELL_NOTREGISTER(4205, "用户名或密码错误")
 	, MODIFY_ERROR(4206, "修改失败 ")
 	, MODIFY_SUCCESS(0, "修改成功 ")
+	, RESET_SUCCESS(0, "重置成功 ")
 	, REGISTER_SUCCESS(0, "注册成功 ")
 	, DATABASEBACK_SUCCESS(0,"数据备份成功")
 	, DATABASEBACK_FAIL(4214,"数据备份失败")
@@ -50,6 +51,8 @@ public enum RespCode {
 	, SMS_SEND_SUCCESS(0, "获取成功")
 	, PLATFORM_NO_USER(4207, "平台未配置该用户 ")
 	, SAVE_SUCCESS(0, "保存成功")
+	, ADD_SAVE(0,"添加成功")
+	,DELETE_USER(0,"删除成功")
 	, SAVE_FAIL(4218, "保存失败 ")
 	, NOT_SUPPORTADDUSER(4208, "该小区不支持添加成员 ")
 	, SMS_SEND_FAIL(4209, "获取失败 ")
@@ -57,7 +60,10 @@ public enum RespCode {
 	, VERIFICATION_CODE(4211, "验证码错误 ")
 	, ILLEGALITY_REQUEST(4212, "非法请求")
 	, FORBID_LOGIN(4213, "禁止登录")
-	,ERROR(4214,"错误");
+	,ERROR(4214,"错误")
+	,NOT_YZ(4215,"您不是业主")
+	,USER_ADDED(4216,"该成员已添加")
+	,CODE_ERROR(4217,"验证码错误,请重新获取");
 
 	private int code;
 	private String msg;

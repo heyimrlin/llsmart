@@ -4,6 +4,8 @@
  */
 package com.leelen.app.service;
 
+import com.leelen.entitys.RespEntity;
+
 /**
  * @author xiaoxl by male
  * @time 2018年6月20日上午11:34:44
@@ -11,4 +13,12 @@ package com.leelen.app.service;
  */
 public interface UnitService {
 
+	// 根据单元id获取单元
+	RespEntity findByUnitid(String unitid);
+
+	// 根据小区id获取单元
+	RespEntity findByPlotid(String token, String sign, long timestamp, String plotid);
+
+	// 根据创建人获取单元
+	RespEntity findByCreater(String creater);
 }

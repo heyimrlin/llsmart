@@ -8,7 +8,9 @@ package com.leelen.app.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.leelen.app.repository.MachineInfoRepository;
 import com.leelen.app.service.CardDeviceService;
 import com.leelen.app.service.MachineInfoService;
@@ -75,12 +78,25 @@ public class MachineInfoServiceImpl implements MachineInfoService {
 	 * String)
 	 */
 	@Override
-	public RespEntity getMachineByPlotid(String token, long timestamp, String sign, String plotid) {
+	public RespEntity getMachineByPlotid(String token, long timestamp, String sign, String plotid, int devicestatus,
+			int isactivate) {
 		// TODO Auto-generated method stub
-		List<MachineInfo> machineInfos = machineInfoRepository.findByPlotidAndDevicestatusAndIsactivate(plotid, 0, 0);
+		List<MachineInfo> machineInfos = machineInfoRepository.findByPlotidAndDevicestatusAndIsactivate(plotid,
+				devicestatus, isactivate);
+		JSONArray jsonArray = new JSONArray();
+		Map<String, Object> map = new HashMap<String, Object>();
+		for (int i = 0; i < machineInfos.size(); i++) {
+			map.put("deviceid", machineInfos.get(i).getDeviceid());
+			map.put("devicename", machineInfos.get(i).getDevicename());
+			map.put("devicecode", machineInfos.get(i).getDevicecode());
+			map.put("machinetype", machineInfos.get(i).getMachinetype());
+			map.put("devicesite", machineInfos.get(i).getDevicesite());
+			jsonArray.add(i, map);
+		}
+
 		// JSONObject json = new JSONObject();
 		// json.put("", value)
-		return new RespEntity(RespCode.SUCCESS, machineInfos);
+		return new RespEntity(RespCode.SUCCESS, jsonArray);
 	}
 
 	/*

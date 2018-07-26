@@ -4,6 +4,8 @@
  */
 package com.leelen.app.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.leelen.entitys.Unit;
@@ -15,4 +17,12 @@ import com.leelen.entitys.Unit;
  */
 public interface UnitRepository extends JpaRepository<Unit, Integer> {
 
+	// 根据单元id获取单元
+	Unit findByUnitid(String unitid);
+
+	// 根据小区id获取单元
+	List<Unit> findByPlotid(String plotid);
+
+	// 根据创建人获取单元
+	List<Unit> findByCreater(String creater);
 }

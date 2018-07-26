@@ -48,7 +48,7 @@ public interface AdministratorService {
 	R updateAdmin(Administrator administrator);
 
 	// 获取我管理的小区
-	RespEntity getMyPlot(String aid);
+	RespEntity getMyPlot(String aid, String sign, long timestamp);
 
 	// ...
 

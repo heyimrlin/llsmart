@@ -28,13 +28,13 @@ public class AppvController {
 
 	@Log("业主APP")
 	@RequestMapping(value = "/yz/appv", produces = { "application/json;charset=UTF-8" })
-	public RespEntity getyzAppvData(@RequestParam(value = "type") int type) {
+	public RespEntity getyzAppvData(@RequestParam(value = "type") String type) {
 		return appvService.getAppV(type);
 	}
 
 	@Log("物业APP")
 	@RequestMapping(value = "/wy/appv", produces = { "application/json;charset=UTF-8" })
-	public RespEntity getwyAppvData(@RequestParam(value = "type") int type) {
+	public RespEntity getwyAppvData(@RequestParam(value = "type") String type) {
 		return appvService.getAppV(type);
 	}
 }

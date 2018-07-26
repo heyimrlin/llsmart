@@ -25,6 +25,7 @@ public class SerialPortController {
 	@RequestMapping("/getComPort")
 	public List<String> getComPort() {
 
-		return SerialTool.findPort();
+		//return SerialTool.findPort();
+		return null;
 	}
 }

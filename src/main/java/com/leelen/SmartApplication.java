@@ -22,7 +22,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * @author xiaoxl
+ * @author xiaoxl by male
  * @EnableCaching 注解配置启用缓存，自动配置配置文件的配置信息进行条件注入缓存所需实例 xiaoxl.931015@
  */
 

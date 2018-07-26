@@ -18,7 +18,7 @@ import com.leelen.entitys.RespEntity;
 public interface AppvService {
 
 	// 获取APP版本信息
-	RespEntity getAppV(int id);
+	RespEntity getAppV(String appid);
 
 	// 修改APP版本信息
 	RespEntity updateAppv(Appv appv);

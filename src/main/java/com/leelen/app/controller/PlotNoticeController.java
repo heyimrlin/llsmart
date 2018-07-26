@@ -43,7 +43,7 @@ public class PlotNoticeController {
 	// }
 
 	@Log("获取小区对应的有效公告")
-	@RequestMapping(value = "/get", produces = { "application/json;charset=UTF-8" }, consumes = { "application/json" })
+	@RequestMapping(value = "/get", produces = { "application/json;charset=UTF-8" })
 	public RespEntity getPlotNoticeData(HttpServletRequest request, @RequestParam(value = "plotid") String plotid) {
 		MyMethod method = new MyMethod();
 		logger.info("请求IP:" + method.getIpAddr(request));

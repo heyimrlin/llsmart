@@ -167,7 +167,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 				tellaccount, password, 0);
 		if (administrator != null) {
 			String tokenStr = MyMethod.GetGUID();
-			if (administrator.getRoleid() == "0" || administrator.getRoleid() == "1") {
+			if (administrator.getRoleid().equals("2") || administrator.getRoleid().equals("3")) {
 				JSONObject json = new JSONObject();
 				json.put("nickname", administrator.getNickname());
 				json.put("account", administrator.getAccount());
@@ -185,7 +185,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 				return new RespEntity(RespCode.SUCCESS, json);
 			} else {
-				if (sign == "93leelen") {
+				if (sign.equals("93leelen")) {
 					logger.info(">>" + sign);
 					wyTokenService.updateToken(administrator.getAid(), tokenStr, dateFormater.format(date));// 平台登录更新token
 					return new RespEntity(RespCode.SUCCESS, null);
@@ -285,22 +285,40 @@ public class AdministratorServiceImpl implements AdministratorService {
 	 * @see com.leelen.app.service.AdministratorService#getMyPlot(java.lang.String)
 	 */
 	@Override
-	public RespEntity getMyPlot(String token) {
+	public RespEntity getMyPlot(String token, String sign, long timestamp) {
 		// TODO Auto-generated method stub
+
+		if (!MyMethod.checkTimestamp(timestamp, System.currentTimeMillis())) {
+			return new RespEntity(RespCode.INVALID_REQUEST, null);
+		}
+
+		String StrSign = "/wy/app/myPolts?token=" + token + "&timestamp=" + timestamp;
+		if (!MyMethod.verdictSign(StrSign, sign)) {
+			return new RespEntity(RespCode.SIGN_ERROR, null);
+		}
+
+		if (wyTokenService.getAidByToken(token) == null) {
+			return new RespEntity(RespCode.SUCCESS, null);
+		}
+
 		List<ManagerPolt> managerPolts = managerPoltService.getPlotByAid(wyTokenService.getAidByToken(token).getAid());
+
+		logger.info("size:" + managerPolts.size());
 		String[] sArrays = new String[managerPolts.size()];
 
 		for (int i = 0; i < managerPolts.size(); i++) {
 			sArrays[i] = managerPolts.get(i).getPlotid();
+			logger.info("sArrays:" + sArrays[i]);
 		}
 		List<Plot> plots = plotRepository.findByPlotidIn(sArrays);
-		JSONObject json = new JSONObject();
-		List<String> lStr = null;
-		for (int i = 0; i < plots.size(); i++) {
-			lStr.add(plots.get(i).getPlotname());
-		}
-		json.put("plot", lStr);
-		return new RespEntity(RespCode.SUCCESS, json);
+		logger.info("plot:" + plots.size());
+		// JSONObject json = new JSONObject();
+		// List<String> lStr = null;
+		// for (int i = 0; i < plots.size(); i++) {
+		// lStr.add(plots.get(i).getPlotname());
+		// }
+		// json.put("plot", lStr);
+		return new RespEntity(RespCode.SUCCESS, plots);
 	}
 
 }

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leelen.app.service.AdvertisingService;
@@ -30,8 +29,7 @@ public class AdvertisingController {
 	AdvertisingService advertisingService;
 
 	@Log("平台广告")
-	@RequestMapping(value = "/platform", method = RequestMethod.GET, produces = {
-			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	@RequestMapping(value = "/platform", produces = { "application/json;charset=UTF-8" })
 	public RespEntity getPtAdv(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "ptid") String ptid) {// ptid平台标识
 
@@ -39,10 +37,19 @@ public class AdvertisingController {
 	}
 
 	@Log("小区广告")
-	@RequestMapping(value = "/plot", method = RequestMethod.GET, produces = {
-			"application/json;charset=UTF-8" }, consumes = { "application/json" })
-	public RespEntity getPlotAdv(HttpServletRequest request, @RequestHeader(value = "token") String token,
-			@RequestHeader(value = "sign") String sign, @RequestParam(value = "plotid") String plotid) {
-		return advertisingService.getAllAdvertisingByAdvtypeAndAuditstatusAndIsshow("1", 0, 0, plotid, token, sign);
+	@RequestMapping(value = "/plot", produces = { "application/json;charset=UTF-8" })
+	public RespEntity getPlotAdv(HttpServletRequest request, @RequestParam(value = "token") String token,
+			@RequestParam(value = "sign") String sign, @RequestParam(value = "plotid") String plotid) {
+		return advertisingService.getAllAdvertisingByAdvtypeAndAuditstatusAndIsshow("0", 0, 0, plotid, token, sign);
 	}
+
+	@Log("下载广告图") //
+	@RequestMapping(value = "/getImg", produces = { "application/json;charset=UTF-8" })
+	public RespEntity getImg(HttpServletRequest request, @RequestHeader(value = "token") String token,
+			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestParam(value = "plotid") String plotid) {
+		return advertisingService.getAllAdvertisingByAdvtypeAndAuditstatusAndIsshowImg("0", 0, 0, plotid, token, sign,
+				timestamp);
+	}
+
 }

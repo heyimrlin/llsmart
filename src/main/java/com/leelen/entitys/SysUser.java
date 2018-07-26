@@ -37,16 +37,16 @@ public class SysUser implements Serializable {
 	private String uid;// 用户ID，唯一标识
 
 	@Basic
-	@Column(name = "nickname", nullable = false)
+	@Column(name = "nickname", nullable = true)
 	private String nickname;// 昵称
 
 	@Basic
-	@Column(name = "tell", nullable = false, length = 11)
+	@Column(name = "tell", nullable = true)
 	private String tell;// 手机号
 
 	@Basic
-	@Column(name = "houserole", nullable = false)
-	private String houserole;// 家庭角色
+	@Column(name = "houserole", nullable = true)
+	private int houserole;// 家庭角色
 
 	@Basic
 	@Column(name = "mobilerg", nullable = false)
@@ -57,15 +57,15 @@ public class SysUser implements Serializable {
 	private int useable;// 是否停用
 
 	@Basic
-	@Column(name = "creator", nullable = false)
+	@Column(name = "creator", nullable = true)
 	private String creator;// 创建人
 
 	@Basic
-	@Column(name = "addtime", nullable = false)
+	@Column(name = "addtime", nullable = true)
 	private String addtime;// 添加时间
 
 	@Basic
-	@Column(name = "familyhost", nullable = false)
+	@Column(name = "familyhost", nullable = true)
 	private String familyhost;// 家庭业主
 
 	/**
@@ -131,7 +131,7 @@ public class SysUser implements Serializable {
 	/**
 	 * @return the houserole
 	 */
-	public String getHouserole() {
+	public int getHouserole() {
 		return houserole;
 	}
 
@@ -139,7 +139,7 @@ public class SysUser implements Serializable {
 	 * @param houserole
 	 *            the houserole to set
 	 */
-	public void setHouserole(String houserole) {
+	public void setHouserole(int houserole) {
 		this.houserole = houserole;
 	}
 
@@ -242,7 +242,7 @@ public class SysUser implements Serializable {
 	 * @param creator
 	 * @param addtime
 	 */
-	public SysUser(int id, String uid, String nickname, String tell, String houserole, int mobilerg, int useable,
+	public SysUser(int id, String uid, String nickname, String tell, int houserole, int mobilerg, int useable,
 			String creator, String addtime, String familyhost) {
 		super();
 		this.id = id;
@@ -264,7 +264,7 @@ public class SysUser implements Serializable {
 		result = prime * result + ((addtime == null) ? 0 : addtime.hashCode());
 		result = prime * result + ((creator == null) ? 0 : creator.hashCode());
 		result = prime * result + ((familyhost == null) ? 0 : familyhost.hashCode());
-		result = prime * result + ((houserole == null) ? 0 : houserole.hashCode());
+		result = prime * result + houserole;
 		result = prime * result + id;
 		result = prime * result + mobilerg;
 		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
@@ -298,10 +298,7 @@ public class SysUser implements Serializable {
 				return false;
 		} else if (!familyhost.equals(other.familyhost))
 			return false;
-		if (houserole == null) {
-			if (other.houserole != null)
-				return false;
-		} else if (!houserole.equals(other.houserole))
+		if (houserole != other.houserole)
 			return false;
 		if (id != other.id)
 			return false;

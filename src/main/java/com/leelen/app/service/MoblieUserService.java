@@ -10,6 +10,9 @@ import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.leelen.entitys.MoblieUser;
 import com.leelen.entitys.RespEntity;
 
@@ -26,7 +29,8 @@ public interface MoblieUserService {
 	RespEntity modifyUsername(String token, String username);
 
 	// 用户注册
-	RespEntity save(String tell, String password, String verification);
+	RespEntity save(HttpServletResponse response, HttpServletRequest request, String sign, long timestamp, String tell,
+			String password, String smsCode);
 
 	// 登录
 	RespEntity login(String tell, String password, String sign, long timestamp, int isplatform);
@@ -42,17 +46,17 @@ public interface MoblieUserService {
 	public Map<String, Object> userLogout(String token, long timestamp, String sign);
 
 	// 业主获取成员
-	RespEntity getMember(String token, long timestamp, String sign);
+	RespEntity getMember(String token, long timestamp, String sign, String plotid);
 
 	// 业主添加成员
 	RespEntity addMember(String token, long timestamp, String sign, String nickname, String tell, String plotid,
 			String buildingname, String room);
 
 	// 业主修改成员
-	RespEntity updateUser(String token, long timestamp, String sign, String nickname, String tell);// token是业主token,要判断小区是否可以
+	RespEntity updateUser(String token, long timestamp, String sign, String uid, String nickname, String tell);// token是业主token,要判断小区是否可以
 
 	// 业主删除成员
-	RespEntity deleteUser(String uid);
+	RespEntity deleteUser(String token, long timestamp, String sign, String uid);
 
 	void updateToken(String token, String tokentime, String tell);
 
@@ -65,5 +69,7 @@ public interface MoblieUserService {
 
 	// 判断用户是否在平台已配置
 	MoblieUser platformishave(String tell);
+
+	RespEntity getMyPlots(String uid, long timestamp, String sign);
 
 }

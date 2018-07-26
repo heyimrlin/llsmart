@@ -67,7 +67,7 @@ public class OperationLog implements Serializable {
 
 	@Basic
 	@Column(name = "oper_date", nullable = false)
-	private String oper_date;// 操作时间
+	private String operdate;// 操作时间
 
 	/**
 	 * @return the id
@@ -207,16 +207,16 @@ public class OperationLog implements Serializable {
 	/**
 	 * @return the oper_date
 	 */
-	public String getOper_date() {
-		return oper_date;
+	public String getOperdate() {
+		return operdate;
 	}
 
 	/**
 	 * @param oper_date
 	 *            the oper_date to set
 	 */
-	public void setOper_date(String oper_date) {
-		this.oper_date = oper_date;
+	public void setOperdate(String oper_date) {
+		this.operdate = oper_date;
 	}
 
 	/*
@@ -228,7 +228,7 @@ public class OperationLog implements Serializable {
 	public String toString() {
 		return "OperationLog [id=" + id + ", username=" + username + ", type=" + type + ", url=" + url + ", method="
 				+ method + ", params=" + params + ", requestip=" + requestip + ", description=" + description
-				+ ", detail=" + detail + ", oper_date=" + oper_date + "]";
+				+ ", detail=" + detail + ", oper_date=" + operdate + "]";
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class OperationLog implements Serializable {
 	 * @param oper_date
 	 */
 	public OperationLog(int id, String username, int type, String url, String method, String params, String requestip,
-			String description, String detail, String oper_date) {
+			String description, String detail, String operdate) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -263,7 +263,7 @@ public class OperationLog implements Serializable {
 		this.requestip = requestip;
 		this.description = description;
 		this.detail = detail;
-		this.oper_date = oper_date;
+		this.operdate = operdate;
 	}
 
 	@Override
@@ -274,7 +274,7 @@ public class OperationLog implements Serializable {
 		result = prime * result + ((detail == null) ? 0 : detail.hashCode());
 		result = prime * result + id;
 		result = prime * result + ((method == null) ? 0 : method.hashCode());
-		result = prime * result + ((oper_date == null) ? 0 : oper_date.hashCode());
+		result = prime * result + ((operdate == null) ? 0 : operdate.hashCode());
 		result = prime * result + ((params == null) ? 0 : params.hashCode());
 		result = prime * result + ((requestip == null) ? 0 : requestip.hashCode());
 		result = prime * result + type;
@@ -309,10 +309,10 @@ public class OperationLog implements Serializable {
 				return false;
 		} else if (!method.equals(other.method))
 			return false;
-		if (oper_date == null) {
-			if (other.oper_date != null)
+		if (operdate == null) {
+			if (other.operdate != null)
 				return false;
-		} else if (!oper_date.equals(other.oper_date))
+		} else if (!operdate.equals(other.operdate))
 			return false;
 		if (params == null) {
 			if (other.params != null)

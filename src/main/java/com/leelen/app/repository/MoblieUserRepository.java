@@ -29,6 +29,12 @@ public interface MoblieUserRepository extends JpaRepository<MoblieUser, Integer>
 	// 根据用户id获取token
 	MoblieUser findByUid(String uid);
 
+	// 修改信息
+	@Query(value = "update moblieuser u set u.nickname=?,u.tell=? where u.uid=?", nativeQuery = true)
+	@Modifying
+	@Transactional
+	int updateUserInfo(@Param("nickname") String nickname, @Param("tell") String tell, @Param("uid") String uid);// 修改用户的状态
+
 	// 更新token
 	@Query(value = "update moblieuser u set u.token=?,u.tokentime=? where u.tell=?", nativeQuery = true)
 	@Modifying

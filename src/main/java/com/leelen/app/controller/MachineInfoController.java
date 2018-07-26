@@ -35,7 +35,7 @@ public class MachineInfoController {
 	public RespEntity getPlotOfMachine(HttpServletRequest request, @RequestHeader(value = "token") String token,
 			@RequestHeader(value = "sign") String sign, @RequestParam(value = "plotid") String plotid) {
 		long timestamp = Long.parseLong(request.getParameter("timestamp"));
-		return machineInfoService.getMachineByPlotid(token, timestamp, sign, plotid);
+		return machineInfoService.getMachineByPlotid(token, timestamp, sign, plotid, 0, 0);
 	}
 
 	// 根据卡id-->获取设备id集合-->获取设备信息数据集

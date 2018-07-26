@@ -16,12 +16,12 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SimplePropertyPreFilter;
+import com.leelen.app.service.PlotInfoService;
 import com.leelen.common.exception.MyException;
 import com.leelen.entity.ManageMsg;
 import com.leelen.entity.Msg;
@@ -52,6 +53,9 @@ public class ApiTestController {
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	Date date = new Date();
 
+	@Resource
+	PlotInfoService plotInfoService;
+
 	// @Resource
 	// UserService userService;
 	//
@@ -70,6 +74,13 @@ public class ApiTestController {
 	//
 	// @Autowired
 	// PlotadvRepository plotadvRepository;
+
+	@RequestMapping("/issupportAddUser")
+	public RespEntity issupportAddUser() {
+		if (plotInfoService.getPlotinfo("10001").getIssupportadduser() != 0)
+			return new RespEntity(RespCode.NOT_SUPPORTADDUSER, null);
+		return new RespEntity(RespCode.SUCCESS, null);
+	}
 
 	@RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
 			"application/json;charset=UTF-8" }, consumes = {
@@ -319,12 +330,12 @@ public class ApiTestController {
 	 *
 	 */
 
-	@Scheduled(cron = "30 * * * * *")
-	public void cron() throws Exception {
-		SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		// String date = MyMethod.getDate();
-		System.out.println("测试执行定时任务(每一分钟的第30秒执行):" + dateFormater.format(date));
-	}
+	// @Scheduled(cron = "30 * * * * *")
+	// public void cron() throws Exception {
+	// SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	// Date date = new Date();
+	// // String date = MyMethod.getDate();
+	// System.out.println("测试执行定时任务(每一分钟的第30秒执行):" + dateFormater.format(date));
+	// }
 
 }

@@ -15,4 +15,19 @@ import com.leelen.entitys.Room;
  */
 public interface RoomRepository extends JpaRepository<Room, Integer> {
 
+	// 根据创建人获取房间
+	Room findByCreater(String creater);
+
+	// 根据小区id获取房间
+	Room findByPlotid(String plotid);
+
+	// 根据单元id获取房间
+	Room findByUnitid(String unitid);
+
+	// 根据房间id获取房间
+	Room findByRoomid(String roomid);
+
+	// 根据小区id和单元id获取房间
+	Room findByPlotidAndUnitid(String plotid, String unitid);
+
 }

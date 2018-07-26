@@ -6,8 +6,6 @@
  */
 package com.leelen.sys.controller;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -17,7 +15,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -95,12 +92,12 @@ public class AdminController {
 
 	// public String
 
-	@Scheduled(cron = "00 * * * * *")
-	public void cronAdmin() throws Exception {
-		SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		// String date = MyMethod.getDate();
-		System.out.println("测试执行定时任务(每一分钟的第00秒执行):" + dateFormater.format(date));
-	}
+	// @Scheduled(cron = "00 * * * * *")
+	// public void cronAdmin() throws Exception {
+	// SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	// Date date = new Date();
+	// // String date = MyMethod.getDate();
+	// System.out.println("测试执行定时任务(每一分钟的第00秒执行):" + dateFormater.format(date));
+	// }
 
 }

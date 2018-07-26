@@ -24,7 +24,8 @@ public interface MachineInfoService {
 	int updataMachineInfoStatus(String deviceid);
 
 	// 根据小区id获取所有有效设备
-	RespEntity getMachineByPlotid(String token, long timestamp, String sign, String plotid);
+	RespEntity getMachineByPlotid(String token, long timestamp, String sign, String plotid, int devicestatus,
+			int isactivate);
 
 	// ...
 

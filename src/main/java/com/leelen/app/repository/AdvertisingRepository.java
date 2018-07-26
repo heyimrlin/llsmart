@@ -18,8 +18,10 @@ import com.leelen.entitys.Advertising;
  */
 public interface AdvertisingRepository extends JpaRepository<Advertising, Integer> {
 
-	List<Advertising> findByAdvtypeAndAuditstatusAndIsshow(String advtype, int auditstatus, int isshow);
+	List<Advertising> findByAdvtypeAndAuditstatusAndIsshowAndPlotid(String advtype, int auditstatus, int isshow,String plotid);
 
+	List<Advertising> findByAdvtypeAndAuditstatusAndIsshow(String advtype, int auditstatus, int isshow);
+	
 	// 根据广告ID获取
 	Advertising findByAdvid(String advid);
 

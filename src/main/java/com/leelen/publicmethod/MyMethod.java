@@ -245,6 +245,13 @@ public class MyMethod {
 		response.addCookie(cookie);
 	}
 
+	public static boolean checkTimestamp(long timestamp, long ptdate) {
+		if (ptdate - 5 * 1000 <= timestamp && timestamp <= ptdate + 5 * 1000) {
+			return true;
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
 
 		System.out.println(GetGUID());
@@ -255,5 +262,6 @@ public class MyMethod {
 		// "?uid=001&password=e10adc3949ba59abbe56e057f20f883e", template));
 		// System.out.println(GetGUID());
 		// System.out.println(dateFormaterStr.format(date));
+		System.out.println(checkTimestamp(new Date().getTime() + 5 * 1000, System.currentTimeMillis()));
 	}
 }

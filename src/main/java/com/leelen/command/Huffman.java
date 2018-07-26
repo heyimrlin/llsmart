@@ -248,6 +248,9 @@ public class Huffman { // Written by: Yancy Vance Paredes, October 17, 2013
 		}
 		// 11111111111111111111111111 26 67108863
 		System.out.println(sBuilder.toString());// 打印第一次过滤数据
+		// 220313210010133133313121020323301013032200211300
+		yaStrTwo(sBuilder.toString());
+
 		String[][] aStrings = new String[compressed.length()][1];
 		for (int i = 0; i < sBuilder.length(); i++) {
 			if (sBuilder.charAt(i) == '2' || sBuilder.charAt(i) == '3') {
@@ -272,6 +275,43 @@ public class Huffman { // Written by: Yancy Vance Paredes, October 17, 2013
 		// 1001100110011111001111101111111000011101101
 		BigInteger yas = binaryToDecimal(so);
 		System.out.println("压缩后:" + yas + "\t" + yas.toString().length() + "位");
+	}
+
+	/**
+	 * @Title: yaStrTwo @Description: TODO(这里用一句话描述这个方法的作用) @param: @return:
+	 * void @throws
+	 */
+
+	private static void yaStrTwo(String strs) {
+		// TODO Auto-generated method stub
+		String s = "";
+		StringBuilder sBuilder = new StringBuilder();
+		for (int i = 0; i < strs.length(); i++) {
+			// System.out.print(compressed.charAt(i));
+			s += strs.charAt(i);
+			if (s.equals("01")) {
+				s = "3";
+				sBuilder.append(s);
+				// aStrings[i][0] = s;
+				s = "";
+			}
+			if (s.equals("10")) {
+				s = "1";
+				sBuilder.append(s);
+				s = "";
+			}
+			if (s.equals("00")) {
+				s = "2";
+				sBuilder.append(s);
+				// aStrings[i][0] = s;
+				s = "";
+			}
+			if (s.equals("11")) {
+				s = "0";
+				sBuilder.append(s);
+				s = "";
+			}
+		}
 	}
 
 	// This method builds the tree based on the frequency of every characters

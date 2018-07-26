@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +27,7 @@ import com.leelen.entitys.RespCode;
 import com.leelen.entitys.RespEntity;
 import com.leelen.my.mycontroller.LeelenRestController;
 import com.leelen.publicmethod.MyMethod;
+import com.leelen.utils.MD5Tools;
 import com.leelen.utils.Ramdata;
 
 /**
@@ -51,13 +52,38 @@ public class SmsApiController {
 	private String syskey;
 
 	@Log("短信接口")
-	@RequestMapping(value = "/api", method = RequestMethod.GET)
+	@RequestMapping(value = "/api", produces = { "application/json;charset=UTF-8" })
 	public RespEntity smsApi(HttpServletResponse response, HttpServletRequest request,
-			@RequestParam(value = "tell") String tell, @RequestParam(value = "key") String key,
-			@RequestParam(value = "purpose") String purpose) {
-		if (!key.equals(syskey)) {
+			@RequestParam(value = "tell") String tell, @RequestHeader(value = "key") String key,
+			@RequestParam(value = "purpose") int purpose, @RequestHeader(value = "sign") String sign,
+			@RequestHeader(value = "timestamp") long timestamp) {
+		// 签名匹配
+		String StrSign = "/app/sms/api?tell=" + tell + "&key=" + key + "&timestamp=" + timestamp;
+		logger.info("StrSign:" + StrSign);
+		if (!MyMethod.verdictSign(StrSign, sign)) {
+			return new RespEntity(RespCode.SIGN_ERROR, null);
+		}
+
+		// 时间判定
+		if (!MyMethod.checkTimestamp(timestamp, System.currentTimeMillis())) {
+			return new RespEntity(RespCode.INVALID_REQUEST, null);
+		}
+		// 获取短信验证码目的
+		// if(!purpose.equals("register")||purpose.equals("modifypwd")||purpose.equals("resetpwd")){
+		// return new RespEntity(RespCode.PARAMETER_ERROR, null);
+		// }
+		// 平台密钥
+		if (!key.equals(MD5Tools.MD5(syskey))) {
 			return new RespEntity(RespCode.SYS_KEY_ERROR, null);
 		}
+
+		// 重新获取短信验证码前删除以前的验证码
+		Cookie cookie = new Cookie("code", getCookieByName(request, "code").getValue());
+		cookie.setMaxAge(0);
+		cookie.setPath("/");
+		System.out.println("被删除的cookie名字为:" + cookie.getName());
+		response.addCookie(cookie);
+
 		String code = Ramdata.ramdaSw(6);
 		logger.info(tell + "获取验证码:" + code);
 		String responseText = JavaSmsApi.singleSend(smskey, JavaSmsApi.getText(code, 10), tell);

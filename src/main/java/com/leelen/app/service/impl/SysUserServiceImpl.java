@@ -37,8 +37,12 @@ public class SysUserServiceImpl implements SysUserService {
 	 * @see com.leelen.app.service.SysUserService#save(com.leelen.entitys.SysUser)
 	 */
 	@Override
-	public void save(SysUser sysUser) {
+	public void save(String uid, int i, int j) {
 		// TODO Auto-generated method stub
+		SysUser sysUser = new SysUser();
+		sysUser.setUid(uid);
+		sysUser.setMobilerg(i);
+		sysUser.setUseable(i);
 		sysUserRepository.save(sysUser);
 	}
 
