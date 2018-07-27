@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leelen.app.service.MachineInfoService;
@@ -51,20 +50,20 @@ public class PoltInfoController {
 
 	// 根据管理员id获取小区
 	@Log("根据管理员id获取小区")
-	@RequestMapping(value = "/get", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/get", produces = { "application/json;charset=UTF-8" })
 	public RespEntity getPlotInfoByAid(HttpServletRequest request, @RequestParam(value = "token") String token,
-			@RequestParam(value = "sign") String sign, @RequestParam(value = "app") String app) {
-		long timestamp = Long.parseLong(request.getParameter("timestamp"));
+			@RequestParam(value = "sign") String sign, @RequestParam(value = "timestamp") long timestamp,
+			@RequestParam(value = "app") String app) {
 		return plotInfoService.getPlotByPlotid(token, timestamp, app, sign);
 
 	}
 
 	// 获取我的小区
 	@Log("根据用户id获取小区")
-	@RequestMapping(value = "/mypolt", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/mypolt", produces = { "application/json;charset=UTF-8" })
 	public RespEntity getPlotInfoByUid(HttpServletRequest request, @RequestParam(value = "token") String token,
-			@RequestParam(value = "sign") String sign, @RequestParam(value = "app") String app) {
-		long timestamp = Long.parseLong(request.getParameter("timestamp"));
+			@RequestParam(value = "sign") String sign, @RequestParam(value = "timestamp") long timestamp,
+			@RequestParam(value = "app") String app) {
 		return userPlotService.getPlotsByUid(token);
 
 	}

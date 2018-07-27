@@ -135,4 +135,29 @@ public class MachineInfoServiceImpl implements MachineInfoService {
 		return machineInfoRepository.findAll();
 	}
 
+	/**
+	 * <p>
+	 * Title: activateDevice
+	 * </p>
+	 * <p>
+	 * Description: 激活设备(重新激活)
+	 * </p>
+	 * 
+	 * @param cardno
+	 * @param cardname
+	 * @param bluetooth
+	 * @param wall
+	 * @param building
+	 * @return
+	 * @see com.leelen.app.service.MachineInfoService#activateDevice(java.lang.String,
+	 *      java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+	 */
+
+	@Override
+	public RespEntity activateDevice(String deviceid, String devicename, String bluetooth, int devicentype,
+			String building) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

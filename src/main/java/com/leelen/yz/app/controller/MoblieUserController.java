@@ -28,10 +28,16 @@ import com.leelen.my.mycontroller.LeelenRestController;
 import com.leelen.utils.ClientOsInfo;
 import com.leelen.utils.MD5Tools;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+
 /**
  * @author xiaoxl
  *
  */
+@Api(description = "用户端APP接口")
 @LeelenRestController(msg = "业主移动端API")
 @RequestMapping("/yz/app")
 public class MoblieUserController {
@@ -42,8 +48,13 @@ public class MoblieUserController {
 	MoblieUserService moblieUserService;
 
 	// 用户注册
+	@ApiOperation(value = "用户注册", notes = "新增注册")
 	@Log("用户注册")
-	@RequestMapping(value = "/register", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	@ApiImplicitParams({
+			@ApiImplicitParam(name = "sign", value = "URL签名", required = true, paramType = "header", dataType = "String"),
+			@ApiImplicitParam(name = "timestamp", value = "时间戳", required = true, paramType = "header", dataType = "long") })
+	@RequestMapping(value = "/register", method = { RequestMethod.GET, RequestMethod.POST }, produces = {
+			"application/json;charset=UTF-8" })
 	public RespEntity register(HttpServletResponse response, HttpServletRequest request,
 			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp,
 			@RequestParam(value = "tell") String tell, @RequestParam(value = "password") String password,
@@ -51,9 +62,9 @@ public class MoblieUserController {
 		// 先判断平台是否有配置
 
 		// 判定请求是否是移动端
-		if (!ClientOsInfo.JudgeIsMoblie(request)) {
-			return new RespEntity(RespCode.ILLEGALITY_REQUEST, null);
-		}
+		// if (!ClientOsInfo.JudgeIsMoblie(request)) {
+		// return new RespEntity(RespCode.ILLEGALITY_REQUEST, null);
+		// }
 
 		return moblieUserService.save(response, request, sign, timestamp, tell, password, smsCode);
 	}

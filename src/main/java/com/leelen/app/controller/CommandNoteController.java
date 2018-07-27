@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.leelen.app.service.CommandNoteService;
@@ -29,13 +28,12 @@ public class CommandNoteController {
 	@Resource
 	CommandNoteService commandNoteService;
 
-	@Log("生成口令")
-	@RequestMapping(value = "/productCommand", method = RequestMethod.GET, produces = {
-			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	@Log("生成口令") // id:设备号 visit:预约开门时间
+	@RequestMapping(value = "/productCommand", produces = { "application/json;charset=UTF-8" })
 	public RespEntity productCommand(HttpServletRequest request, @RequestHeader(value = "token") String token,
-			@RequestHeader(value = "sign") String sign, @RequestParam String unit,
-			@RequestParam(value = "app") String app) {
-		long timestamp = Long.parseLong(request.getParameter("timestamp"));
-		return commandNoteService.save(token, unit, app, timestamp, sign);
+			@RequestHeader(value = "sign") String sign, @RequestHeader(value = "timestamp") long timestamp,
+			@RequestParam String unitid, @RequestParam(value = "app") String app,
+			@RequestParam(value = "deviceid") String deviceid, @RequestParam(value = "visittime") long visittime) {
+		return commandNoteService.save(token, unitid, app, timestamp, sign, deviceid, visittime);
 	}
 }

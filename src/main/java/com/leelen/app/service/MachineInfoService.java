@@ -32,6 +32,9 @@ public interface MachineInfoService {
 	// 根据卡id-->获取设备id集合-->获取设备信息数据集
 	RespEntity getMachineByCardno(String cardno);
 
+	// 激活设备(重新激活)
+	RespEntity activateDevice(String deviceid, String devicename, String bluetooth, int devicentype, String building);
+
 	// List
 	List<MachineInfo> getMachineList();
 }

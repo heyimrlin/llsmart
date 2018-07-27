@@ -54,12 +54,13 @@ public class CommandNoteServiceImpl implements CommandNoteService {
 	 * CommandNote)
 	 */
 	@Override
-	public RespEntity save(String token, String unit, String app, long timestamp, String sign) {// 不重复生成口令
+	public RespEntity save(String token, String unitid, String app, long timestamp, String sign, String deviceid,
+			long visittime) {// 不重复生成口令
 		// TODO Auto-generated method stub
 		// if (app == "wy" || app == "yz") {
 		String strSign = "/app/command/productCommand?token=" + token + "&app=" + app + "&timestamp=" + timestamp;
 		System.out.println(strSign);
-		if (MyMethod.verdictSign(strSign, sign)) {
+		if (!MyMethod.verdictSign(strSign, sign)) {
 			CommandNote commandNote = new CommandNote();
 			String command = Ramdata.ramdaSw(8);// 口令长度:8
 			String createtime = MyMethod.getDate();
@@ -72,7 +73,7 @@ public class CommandNoteServiceImpl implements CommandNoteService {
 				commandNote.setUid(moblieUserRepository.findByToken(token).getUid());
 			}
 			commandNote.setCreateid(Ramdata.ramdaSw(8));
-			commandNote.setUnit(unit);
+			commandNote.setUnit(unitid);// 由单元 改成 单元id
 			commandNote.setCommand(command);
 			commandNote.setIsuse(0);
 			commandNote.setValidtime(vDate);

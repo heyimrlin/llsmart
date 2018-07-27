@@ -18,7 +18,8 @@ import com.leelen.entitys.RespEntity;
 public interface CommandNoteService {
 
 	// 生成口令
-	RespEntity save(String token, String unit, String app, long timestamp, String sign);
+	RespEntity save(String token, String unitid, String app, long timestamp, String sign, String deviceid,
+			long visittime);
 
 	// 根据用户id获取记录
 	List<CommandNote> getCommandNoteByUid(String uid);

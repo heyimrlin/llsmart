@@ -36,6 +36,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.alibaba.fastjson.JSONObject;
 import com.leelen.app.repository.OperationLogRepository;
 import com.leelen.entitys.OperationLog;
+import com.leelen.publicmethod.MyMethod;
 
 /**
  * @ClassName: WebLogAspect
@@ -78,14 +79,14 @@ public class WebLogAspect {
 			if (null == request) {
 				logger.info("RESPONSE : " + null);
 			} else {
-
+				MyMethod method = new MyMethod();
 				// 记录下请求内容
 				logger.info(
 						"\n*********************************************************************************************************");
 				logger.info("请求时间:" + dateFormater.format(date));
 				logger.info("URL : " + request.getRequestURL().toString());
 				logger.info("HTTP_METHOD : " + request.getMethod());
-				logger.info("IP : " + request.getRemoteAddr());
+				logger.info("IP : " + method.getIpAddr(request));
 				logger.info("remoteHost" + request.getRemoteHost());
 				logger.info("remotePort" + request.getRemotePort());
 				logger.info("headers" + getHeadersInfo(request));
