@@ -56,6 +56,7 @@ public class DatabaseBackController {
 
 	@Log("数据库备份")
 	@RequestMapping(value = "/databaseback", method = RequestMethod.GET)
+
 	public RespEntity databaseBack(@RequestParam(value = "appkey") String appkey) {
 		if (BatabaseBack.backup(databaseip, databaseusername, databasepwd, "databasepath", dateFormater.format(date),
 				databasename)) {

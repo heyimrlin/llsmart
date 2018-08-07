@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.jayway.restassured:rest-assured-common:2.8.0">
+    <CLASSES>
+      <root url="jar://E:/JAVATools/MvnRepo/com/jayway/restassured/rest-assured-common/2.8.0/rest-assured-common-2.8.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://E:/JAVATools/MvnRepo/com/jayway/restassured/rest-assured-common/2.8.0/rest-assured-common-2.8.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://E:/JAVATools/MvnRepo/com/jayway/restassured/rest-assured-common/2.8.0/rest-assured-common-2.8.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

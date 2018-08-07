@@ -14,10 +14,9 @@ package com.leelen.mysocket;
 
 import java.io.IOException;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.leelen.entitys.RespCode;
@@ -35,10 +34,12 @@ import com.leelen.my.mycontroller.LeelenController;
  */
 @LeelenController
 @RequestMapping("/checkcenter")
+@Api(value = "CheckCenter-API", description = "数据推送接口")
 public class CheckCenterController {
 
 	// 页面请求
 	@GetMapping("/socket/{cid}")
+	@ApiOperation(value = "页面请求")
 	public ModelAndView socket(@PathVariable String cid) {
 		ModelAndView mav = new ModelAndView("/login");
 		mav.addObject("cid", cid);
@@ -47,7 +48,8 @@ public class CheckCenterController {
 
 	// 推送数据接口
 	@ResponseBody
-	@RequestMapping("/socket/push/{cid}")
+	@RequestMapping(value = "/socket/push/{cid}", method = {RequestMethod.GET, RequestMethod.POST})
+	@ApiOperation(value = "数据推送")
 	public RespEntity pushToWeb(@PathVariable String cid, String message) {
 		try {
 			WebSocketServer.sendInfo(message, cid);

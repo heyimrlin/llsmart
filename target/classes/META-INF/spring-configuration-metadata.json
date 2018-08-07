@@ -1,0 +1,32 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.leelen.entitys.Leelen",
+      "name": "leelen",
+      "type": "com.leelen.entitys.Leelen"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.leelen.entitys.Leelen",
+      "name": "leelen.name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.leelen.entitys.Leelen",
+      "name": "leelen.smart",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.leelen.entitys.Leelen",
+      "name": "leelen.smskey",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.leelen.entitys.Leelen",
+      "name": "leelen.syskey",
+      "type": "java.lang.String"
+    }
+  ]
+}

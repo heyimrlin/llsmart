@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.junit.Ignore;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
