@@ -10,6 +10,10 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -32,6 +36,7 @@ import com.leelen.my.mycontroller.LeelenRestController;
  */
 @LeelenRestController(msg = "数据导出")
 @RequestMapping("/sys/export")
+@Api(value = "Export-API", description = "数据导出接口")
 public class ExportController {
 
 	@Resource
@@ -39,6 +44,8 @@ public class ExportController {
 
 	@Log("数据导出excel")
 	@RequestMapping(value = "/excel", method = RequestMethod.GET)
+	@ApiOperation(value = "数据导出Excel表格", notes = "根据要求将数据导出到Excel表格中")
+	@ApiResponse(code = 200, message = "数据导出成功")
 	public RespEntity exportExcel(HttpServletResponse response) throws IOException {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("信息表");

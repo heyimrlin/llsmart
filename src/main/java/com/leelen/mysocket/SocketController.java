@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.websocket.Session;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,6 +38,7 @@ import com.leelen.my.mycontroller.LeelenRestController;
  */
 @LeelenRestController
 @RequestMapping("/socket")
+//@Api(value = "Socket-API", description = "Socket接口")
 public class SocketController {
 
 	// 用本地线程保存session

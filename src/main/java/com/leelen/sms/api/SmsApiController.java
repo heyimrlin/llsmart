@@ -11,6 +11,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSONObject;
@@ -38,6 +40,7 @@ import com.leelen.utils.Ramdata;
 @LeelenRestController
 @RequestMapping("/app/sms")
 @EnableConfigurationProperties(Leelen.class)
+@Api(value = "SmsAPI", description = "短信接口")
 public class SmsApiController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -52,7 +55,14 @@ public class SmsApiController {
 	private String syskey;
 
 	@Log("短信接口")
-	@RequestMapping(value = "/api", produces = { "application/json;charset=UTF-8" })
+	@RequestMapping(value = "/api", produces = { "application/json;charset=UTF-8" }, method = {RequestMethod.GET, RequestMethod.POST})
+	@ApiOperation(value = "获取短信验证码")
+	@ApiImplicitParams({@ApiImplicitParam(name = "tell", value = "手机号", paramType = "form", dataType = "String", required = true),
+		@ApiImplicitParam(name = "key", value = "秘钥", paramType = "header", dataType = "String", required = true),
+		@ApiImplicitParam(name = "purpose", value = "意图", paramType = "form", dataType = "integer", required = false),
+		@ApiImplicitParam(name = "sign", value = "URL签名", paramType = "header", dataType = "String",required = true),
+		@ApiImplicitParam(name = "timestamp", value = "时间戳", paramType = "header", dataType = "long", required = true)})
+	@ApiResponse(code = 200, message = "获取短信验证码成功")
 	public RespEntity smsApi(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "tell") String tell, @RequestHeader(value = "key") String key,
 			@RequestParam(value = "purpose") int purpose, @RequestHeader(value = "sign") String sign,

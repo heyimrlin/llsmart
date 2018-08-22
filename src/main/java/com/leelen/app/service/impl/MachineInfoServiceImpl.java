@@ -154,7 +154,7 @@ public class MachineInfoServiceImpl implements MachineInfoService {
 	 */
 
 	@Override
-	public RespEntity activateDevice(String deviceid, String devicename, String bluetooth, int devicentype,
+	public RespEntity activateDevice(String deviceid, String devicename, String bluetooth, int devicetype,
 			String building) {
 		// TODO Auto-generated method stub
 		return null;

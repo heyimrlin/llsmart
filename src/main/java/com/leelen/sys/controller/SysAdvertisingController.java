@@ -8,7 +8,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.leelen.app.service.AdvertisingService;
@@ -29,7 +31,7 @@ public class SysAdvertisingController {
 	AdvertisingService advertisingService;
 
 	@Log("平台获取广告")
-	@RequestMapping("/list")
+	@RequestMapping(value = "/list", method = {RequestMethod.GET,RequestMethod.POST})
 	public @ResponseBody List<Advertising> getAdvList() {
 		return advertisingService.getAllAdv();
 	}

@@ -11,6 +11,10 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -25,6 +29,7 @@ import com.leelen.utils.ClientOsInfo;
 
 @LeelenRestController
 @RequestMapping("/app")
+@Api(value = "Time-API", description = "时间校验接口")
 public class TimeController {
 
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -32,6 +37,8 @@ public class TimeController {
 
 	// 获取时间
 	@RequestMapping(value = "/getTime", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	@ApiOperation(value = "获取时间")
+	@ApiResponse(code = 200, message = "平台时间", response = AppMsg.class)
 	public AppMsg getTime(HttpServletRequest request) {
 		 if (!ClientOsInfo.JudgeIsMoblie(request)) {
 		 return new AppMsg(4212, "非法请求", null);

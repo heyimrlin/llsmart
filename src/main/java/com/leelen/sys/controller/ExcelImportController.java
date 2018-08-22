@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import io.swagger.annotations.*;
 import org.apache.shiro.authc.Account;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,11 +31,16 @@ import com.leelen.utils.ExcelImportUtils;
  */
 @LeelenRestController(msg = "excel数据导入数据库mysql")
 @RequestMapping(value = "/sys/excelimport")
+@Api(value = "ExcelImport-API", description = "数据导入接口")
 public class ExcelImportController {
 
 	@Log("excel数据导入数据库mysql")
 	@RequestMapping(value = "/batchImport", method = RequestMethod.POST)
-	public RespEntity batchImport(@RequestParam(value = "filename") MultipartFile file, HttpServletRequest request,
+	@ApiOperation(value = "Excel数据导入MySQL数据库", notes = "传入本地的Excel表格文件，将其中的数据导入到MySQL数据库中")
+	@ApiImplicitParams({@ApiImplicitParam(name = "session", value = "HttpSession会话", paramType = "header", dataType = "HttpSession", required = true),
+		@ApiImplicitParam(name = "account", value = "Account验证", paramType = "header", dataType = "Account", required = true)})
+	@ApiResponse(code = 200, message = "数据导入成功")
+	public RespEntity batchImport(@ApiParam(value = "上传的文件", required = true)@RequestParam(value = "filename") MultipartFile file, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session,
 			/* @SessionAttribute(Constants.ACCOUNT_SESSION_KEY) */ Account account) throws IOException {
 

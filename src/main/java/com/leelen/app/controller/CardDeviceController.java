@@ -38,7 +38,7 @@ public class CardDeviceController {
 	@RequestMapping(value = "/getDevice", method = RequestMethod.GET, produces = {
 			"application/json;charset=UTF-8" }, consumes = { "application/json" })
 	@ApiOperation(value = "获取设备", notes = "通过门禁卡卡号获取关联设备")
-	@ApiImplicitParam(name = "cardno", value = "卡号", paramType = "form", dataType = "String")
+	@ApiImplicitParam(name = "cardno", value = "卡号", paramType = "form", dataType = "String", required = true)
 	@ApiResponse(code = 200, message = "获取设备成功", response = CardDevice.class)
 	public List<CardDevice> getDevice(@RequestParam(name = "cardno") String cardno) {
 		return cardDeviceService.getDeviceDataByCard(cardno);

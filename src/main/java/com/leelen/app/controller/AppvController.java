@@ -35,7 +35,7 @@ public class AppvController {
 	@Log("业主APP")
 	@RequestMapping(value = "/yz/appv", produces = { "application/json;charset=UTF-8" }, method = {RequestMethod.GET,RequestMethod.POST})
 	@ApiOperation(value = "业主APP版本", notes = "根据APP标识获取业主APP的版本信息")
-	@ApiImplicitParam(name = "type", value = "APP标识", paramType = "form", dataType = "String")
+	@ApiImplicitParam(name = "type", value = "APP标识", paramType = "form", dataType = "String", required = true)
 	@ApiResponse(code = 200, message = "获取版本信息成功")
 	public RespEntity getyzAppvData(@RequestParam(value = "type") String type) {
 		return appvService.getAppV(type);
@@ -44,7 +44,7 @@ public class AppvController {
 	@Log("物业APP")
 	@RequestMapping(value = "/wy/appv", produces = { "application/json;charset=UTF-8" }, method = {RequestMethod.GET,RequestMethod.POST})
 	@ApiOperation(value = "物业APP版本", notes = "根据APP标识获取物业APP的版本信息")
-	@ApiImplicitParam(name = "type", value = "APP标识", paramType = "form", dataType = "String")
+	@ApiImplicitParam(name = "type", value = "APP标识", paramType = "form", dataType = "String", required = true)
 	@ApiResponse(code = 200, message = "获取版本信息成功")
 	public RespEntity getwyAppvData(@RequestParam(value = "type") String type) {
 		return appvService.getAppV(type);

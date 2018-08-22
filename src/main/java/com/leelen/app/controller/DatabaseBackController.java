@@ -7,6 +7,10 @@ package com.leelen.app.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +33,7 @@ import com.leelen.my.mycontroller.LeelenRestController;
  */
 @LeelenRestController(msg = "数据库备份")
 @RequestMapping("/app/databaseback")
+@Api(value = "DatabaseBack-API", description = "数据库备份接口")
 public class DatabaseBackController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -56,8 +61,10 @@ public class DatabaseBackController {
 
 	@Log("数据库备份")
 	@RequestMapping(value = "/databaseback", method = RequestMethod.GET)
-
-	public RespEntity databaseBack(@RequestParam(value = "appkey") String appkey) {
+	@ApiOperation(value="数据库备份")
+	@ApiImplicitParam(name = "syskey", value = "平台秘钥", paramType = "form", dataType = "String", required = true)
+	@ApiResponse(code = 200, message = "数据备份成功")
+	public RespEntity databaseBack(@RequestParam(value = "syskey") String syskey) {
 		if (BatabaseBack.backup(databaseip, databaseusername, databasepwd, "databasepath", dateFormater.format(date),
 				databasename)) {
 			logger.info(dateFormater.format(date) + "数据库备份成功");

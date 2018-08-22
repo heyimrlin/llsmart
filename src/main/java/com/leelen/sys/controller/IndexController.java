@@ -9,11 +9,13 @@ package com.leelen.sys.controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.leelen.manage.repository.AdminUserRepository;
 import com.leelen.my.mycontroller.LeelenController;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @author xiaoxl
@@ -22,6 +24,7 @@ import com.leelen.my.mycontroller.LeelenController;
 
 @LeelenController
 @RequestMapping("/sys")
+@Api(value = "Index-API")
 public class IndexController {
 
 	SimpleDateFormat dateFormater = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -33,12 +36,12 @@ public class IndexController {
 	// @Resource
 	// AdminUserService adminUserService;
 
-	@RequestMapping("/index")
+	@RequestMapping(value = "/index", method = {RequestMethod.GET, RequestMethod.POST})
 	public String index() {
 		return "view/index";
 	}
 
-	@RequestMapping("/manage/toadd")
+	@RequestMapping(value = "/manage/toadd", method = {RequestMethod.GET, RequestMethod.POST})
 	public String toAdd() {
 		return "manage/user/add";
 	}

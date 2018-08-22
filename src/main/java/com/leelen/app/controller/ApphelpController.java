@@ -36,7 +36,7 @@ public class ApphelpController {
 	@RequestMapping(value = "/getApphelp", produces = { "application/json;charset=UTF-8" }, consumes = {
 			"application/json" },method = {RequestMethod.GET, RequestMethod.POST})
 	@ApiOperation(value = "获取帮助信息", notes = "根据状态获取APP帮助信息")
-	@ApiImplicitParam(name = "status", value = "状态", paramType = "form", dataType = "Integer")
+	@ApiImplicitParam(name = "status", value = "状态", paramType = "form", dataType = "int", required = true)
 	@ApiResponse(code = 200, message = "获取帮助信息成功")
 	public RespEntity getApphelp(@RequestParam("status") int status) {
 		return apphelpService.getAllApphelpByStatus(status);

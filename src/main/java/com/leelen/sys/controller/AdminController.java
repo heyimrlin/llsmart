@@ -48,11 +48,11 @@ public class AdminController {
 	@RequestMapping(value = "/addAdministrator", method = {RequestMethod.GET}, produces = {
 			"application/json;charset=UTF-8" })
 	@ApiOperation(value="添加管理员", notes = "添加管理员账号，返回RespEntity类型实体")
-	@ApiImplicitParams({@ApiImplicitParam(name = "nickname", value = "管理员昵称", paramType = "form" ,dataType = "String"),
-            @ApiImplicitParam(name = "account", value = "管理员账号", paramType = "form" ,dataType = "String"),
-            @ApiImplicitParam(name = "tell", value = "管理员手机号", paramType = "form" ,dataType = "String"),
-            @ApiImplicitParam(name = "password", value = "管理员密码", paramType = "form" ,dataType = "String"),
-            @ApiImplicitParam(name = "roleid", value = "角色创建人标识", paramType = "query" ,dataType = "String")})
+	@ApiImplicitParams({@ApiImplicitParam(name = "nickname", value = "管理员昵称", paramType = "form" ,dataType = "String", required = true),
+            @ApiImplicitParam(name = "account", value = "管理员账号", paramType = "form" ,dataType = "String", required = true),
+            @ApiImplicitParam(name = "tell", value = "管理员手机号", paramType = "form" ,dataType = "String", required = true),
+            @ApiImplicitParam(name = "password", value = "管理员密码", paramType = "form" ,dataType = "String", required = true),
+            @ApiImplicitParam(name = "roleid", value = "角色创建人标识", paramType = "query" ,dataType = "String", required = true)})
 	@ApiResponse(code = 200, message = "保存成功")
 	public RespEntity addAdministrator(HttpServletRequest request, @RequestParam(value = "nickname") String nickname,
 			@RequestParam(value = "account") String account, @RequestParam(value = "tell") String tell,
@@ -72,9 +72,9 @@ public class AdminController {
 	@Log("平台登录")
 	@RequestMapping(value = "/adminLogin", method = RequestMethod.POST)
 	@ApiOperation(value = "平台登录", notes = "平台登录")
-	@ApiImplicitParams({@ApiImplicitParam(name = "accounttell", value = "管理员手机号", paramType = "form", dataType = "String"),
-			@ApiImplicitParam(name = "password", value = "管理员密码", paramType = "form" ,dataType = "String"),
-			@ApiImplicitParam(name = "vcode", value = "验证码", paramType = "form" ,dataType = "String")})
+	@ApiImplicitParams({@ApiImplicitParam(name = "accounttell", value = "管理员手机号", paramType = "form", dataType = "String", required = true),
+			@ApiImplicitParam(name = "password", value = "管理员密码", paramType = "form" ,dataType = "String", required = true),
+			@ApiImplicitParam(name = "vcode", value = "验证码", paramType = "form" ,dataType = "String", required = true)})
 	@ApiResponse(code = 200, message = "请求成功")
 	public RespEntity adminLogin(HttpServletResponse response, HttpServletRequest request,
 			@RequestParam(value = "accounttell") String accounttell, @RequestParam(value = "password") String password,
@@ -103,8 +103,8 @@ public class AdminController {
 	@Log("修改管理员状态")
 	@RequestMapping(value = "/updateAdminStatus", method = {RequestMethod.GET, RequestMethod.POST})
 	@ApiOperation(value = "修改管理员状态", notes = "设置管理员账号是否可用")
-	@ApiImplicitParams({@ApiImplicitParam(name = "tell", value = "管理员手机号", paramType = "form", dataType = "String"),
-			@ApiImplicitParam(name = "isuse", value = "是否可用", paramType = "form", dataType = "String")})
+	@ApiImplicitParams({@ApiImplicitParam(name = "tell", value = "管理员手机号", paramType = "form", dataType = "String", required = true),
+			@ApiImplicitParam(name = "isuse", value = "是否可用", paramType = "form", dataType = "String", required = true)})
 	@ApiResponse(code = 200, message = "请求成功")
 	public RespEntity updateAdminStatus(@RequestParam(value = "tell") String tell,
 			@RequestParam(value = "isuse") int isuse) {

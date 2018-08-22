@@ -6,6 +6,9 @@ package com.leelen.app.controller;
 
 import javax.annotation.Resource;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +28,7 @@ import com.leelen.my.mycontroller.LeelenRestController;
  */
 @LeelenRestController(msg = "用户进出记录")
 @RequestMapping("/app/ucn")
+@Api(value = "UserCardNote-API", description = "用户进出记录接口")
 public class UserCardNoteController {
 
 	Logger logger = LoggerFactory.getLogger(getClass());
@@ -54,6 +58,8 @@ public class UserCardNoteController {
 	@Log("用户卡记录")
 	@RequestMapping(value = "/uploadCardNote", method = RequestMethod.GET, produces = {
 			"application/json;charset=UTF-8" }, consumes = { "application/json" })
+	@ApiOperation(value = "上传用户卡记录")
+	@ApiResponse(code = 200, message = "上传成功")
 	public RespEntity uploadCardNote(@RequestBody UserCardNote[] userCardNote) {
 		logger.info("json数组数据:" + userCardNote);
 		return userCardNoteService.save(userCardNote);
